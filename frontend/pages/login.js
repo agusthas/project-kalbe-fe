@@ -1,12 +1,11 @@
-import Footer from "./components/Footer";
-import LoginForm from "./components/LoginForm";
+import LoginForm from "@/components/LoginForm";
+import Layout from "@/components/Layout";
 
 const Login = () => {
     return(
-        <>
+        <Layout>
             <LoginForm />
-            <Footer />
-        </>
+        </Layout>
     )
 }
 

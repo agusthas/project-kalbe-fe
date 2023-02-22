@@ -1,17 +1,14 @@
 import { useRouter } from "next/router";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import PostDetail from "../components/PostDetail";
+import Layout from "@/components/Layout";
 
 const Post = () => {
     const router = useRouter();
     const post = router.query.postId;
     return(
-        <>
-            <Navbar />
+        <Layout showNavbar={false}>
             <PostDetail title={post} caption={post} />
-            <Footer />
-        </>
+        </Layout>
     )
 }
 

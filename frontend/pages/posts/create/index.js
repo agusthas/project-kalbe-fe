@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { Button, Container, Form } from "react-bootstrap";
+import Layout from "@/components/Layout";
 
 const CreatePost = () => {
     return(
-        <>
+        <Layout>
             <Container className="px-0 py-5">
                 <h1 className="text-center fw-bold">Create Blog</h1>
                 <Form className="w-50 mx-auto py-3" action="/" method="POST">
@@ -44,7 +45,7 @@ const CreatePost = () => {
                     </div>
                 </Form>
             </Container>
-        </>
+        </Layout>
     )
 }
 

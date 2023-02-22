@@ -1,13 +1,16 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Button, Container } from "react-bootstrap";
 
 const Navbar = () => {
+    const router = useRouter()
+    const activeLink = (url, pathname) => pathname === url ? "text-primary" : "text-dark"
     return (
-        <Container fluid className="px-5 shadow">
-            <div className="bg-white text-primary px-5 py-3 d-flex justify-content-between align-items-center">
-                <h2 className="text-primary fw-bold" style={{width: '85%'}}>MyBlog</h2>
-                <div className="d-flex justify-content-between align-items-center" style={{width: '15%'}}>
-                    <Link href={`/`} className="text-primary mb-0 text-decoration-none">
+        <Container fluid className="shadow">
+            <div className="bg-white text-primary container py-3 d-flex justify-content-between align-items-center">
+                <h2 className="text-primary fw-bold">MyBlog</h2>
+                <div className="d-flex align-items-center gap-5">
+                    <Link href={`/`} className={`${activeLink('/', router.pathname)} mb-0 text-decoration-none`}>
                         Home
                     </Link>
                     <Link href={`/login`}>
