@@ -64,6 +64,19 @@ async function main() {
     });
     console.log(`Created ${userPosts.count} posts for ${user.name}`);
   }
+
+  // Add random comments count to each post
+  console.log('Adding random comments to posts...');
+  const posts = await prisma.post.findMany();
+  for (const post of posts) {
+    const comments = await prisma.comment.createMany({
+      data: Array.from({ length: faker.datatype.number(5) }).map(() => ({
+        content: faker.lorem.paragraphs(1, '<br />'),
+        postId: post.id,
+        authorId: faker.datatype.number({ min: 1, max: users.length }),
+      })),
+    });
+  }
 }
 
 main()
