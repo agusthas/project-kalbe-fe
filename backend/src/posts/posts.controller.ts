@@ -8,6 +8,7 @@ import {
   Post,
   Put,
   Request,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -52,10 +53,22 @@ export class PostsController {
     };
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
-  async update(@Param('id') id: string, @Body() postData: CreatePostDto) {
+  async update(
+    @Request() req: RequestWithUser,
+    @Param('id') id: string,
+    @Body() postData: CreatePostDto,
+  ) {
     const post = await this.postsService.findOne(+id);
     if (!post) throw new NotFoundException(`Post with ID ${id} not found`);
+
+    // Only the owner of the post can update it
+    if (post.authorId !== req.user.id) {
+      throw new UnauthorizedException(
+        `You don't have permission to update this post`,
+      );
+    }
 
     const updatedPost = await this.postsService.update(+id, postData);
     return {
@@ -66,9 +79,16 @@ export class PostsController {
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  async remove(@Param('id') id: string) {
+  async remove(@Request() req: RequestWithUser, @Param('id') id: string) {
     const post = await this.postsService.findOne(+id);
     if (!post) throw new NotFoundException(`Post with ID ${id} not found`);
+
+    // Only the owner of the post can delete it
+    if (post.authorId !== req.user.id) {
+      throw new UnauthorizedException(
+        `You don't have permission to delete this post`,
+      );
+    }
 
     await this.postsService.remove(+id);
     return {
