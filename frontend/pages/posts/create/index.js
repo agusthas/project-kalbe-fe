@@ -1,4 +1,3 @@
-import Navbar from "@/pages/components/Navbar";
 import Link from "next/link";
 import { Button, Container, Form } from "react-bootstrap";
 
