@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import PostDetail from "../components/PostDetail";
+// import PostDetail from "../components/PostDetail";
 import Layout from "@/components/Layout";
 
 const Post = () => {
@@ -7,7 +7,7 @@ const Post = () => {
     const post = router.query.postId;
     return(
         <Layout showNavbar={false}>
-            <PostDetail title={post} caption={post} />
+            {/* <PostDetail title={post} caption={post} /> */}
         </Layout>
     )
 }

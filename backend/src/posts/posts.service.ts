@@ -49,6 +49,19 @@ export class PostsService {
       include: {
         author: true,
         category: true,
+        comments: {
+          include: {
+            author: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
       },
     });
 

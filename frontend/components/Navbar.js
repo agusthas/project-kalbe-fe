@@ -1,14 +1,13 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Button, Container } from "react-bootstrap";
-
+import { Button, Container, Image } from "react-bootstrap";
 const Navbar = () => {
     const router = useRouter()
     const activeLink = (url, pathname) => pathname === url ? "text-primary" : "text-dark"
     return (
         <Container fluid className="shadow">
             <div className="bg-white text-primary container py-3 d-flex justify-content-between align-items-center">
-                <h2 className="text-primary fw-bold">MyBlog</h2>
+                <h2 className="text-primary fw-bold">MyBlog <Image src="/favicon.ico" alt="MyBlog" width={25} height={25}/></h2>
                 <div className="d-flex align-items-center gap-5">
                     <Link href={`/`} className={`${activeLink('/', router.pathname)} mb-0 text-decoration-none`}>
                         Home
