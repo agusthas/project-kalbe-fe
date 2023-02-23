@@ -11,16 +11,17 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
   name      String
   password  String
   phone     String
   avatar    String?
-  bio       String   @db.Text
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  bio       String    @db.Text
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
   posts     Post[]
+  comments  Comment[]
 
   @@map("users")
 }
@@ -36,6 +37,7 @@ model Post {
   author      User      @relation(fields: [authorId], references: [id])
   category    Category? @relation(fields: [categoryId], references: [id])
   categoryId  Int?
+  comments    Comment[]
 
   @@map("posts")
 }
@@ -48,4 +50,17 @@ model Category {
   posts     Post[]
 
   @@map("categories")
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String   @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  authorId  Int
+  author    User     @relation(fields: [authorId], references: [id])
+  postId    Int
+  post      Post     @relation(fields: [postId], references: [id])
+
+  @@map("comments")
 }
