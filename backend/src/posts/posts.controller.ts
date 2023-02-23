@@ -5,15 +5,15 @@ import {
   Get,
   NotFoundException,
   Param,
+  ParseIntPipe,
   Post,
   Put,
-  Request,
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import RequestWithUser from 'src/auth/request-with-user.interface';
-import { CreatePostDto } from './dto';
+import { AuthUser } from 'src/auth/auth-user.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { CreatePostDto, UpdatePostDto } from './dto';
 import { PostsService } from './posts.service';
 
 @Controller('posts')
@@ -23,10 +23,10 @@ export class PostsController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async create(
-    @Request() req: RequestWithUser,
+    @AuthUser('id') userId: number,
     @Body() postData: CreatePostDto,
   ) {
-    const post = await this.postsService.create(postData, req.user.id);
+    const post = await this.postsService.create(postData, userId);
     return {
       status: 'success',
       data: post,
@@ -43,8 +43,8 @@ export class PostsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const post = await this.postsService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const post = await this.postsService.findOne(id);
     if (!post) throw new NotFoundException(`Post with ID ${id} not found`);
 
     return {
@@ -56,21 +56,21 @@ export class PostsController {
   @UseGuards(JwtAuthGuard)
   @Put(':id')
   async update(
-    @Request() req: RequestWithUser,
-    @Param('id') id: string,
-    @Body() postData: CreatePostDto,
+    @AuthUser('id') userId: number,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() postData: UpdatePostDto,
   ) {
-    const post = await this.postsService.findOne(+id);
+    const post = await this.postsService.findOne(id);
     if (!post) throw new NotFoundException(`Post with ID ${id} not found`);
 
     // Only the owner of the post can update it
-    if (post.authorId !== req.user.id) {
+    if (post.authorId !== userId) {
       throw new UnauthorizedException(
         `You don't have permission to update this post`,
       );
     }
 
-    const updatedPost = await this.postsService.update(+id, postData);
+    const updatedPost = await this.postsService.update(id, postData);
     return {
       status: 'success',
       data: updatedPost,
@@ -79,18 +79,21 @@ export class PostsController {
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  async remove(@Request() req: RequestWithUser, @Param('id') id: string) {
-    const post = await this.postsService.findOne(+id);
+  async remove(
+    @AuthUser('id') userId: number,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    const post = await this.postsService.findOne(id);
     if (!post) throw new NotFoundException(`Post with ID ${id} not found`);
 
     // Only the owner of the post can delete it
-    if (post.authorId !== req.user.id) {
+    if (post.authorId !== userId) {
       throw new UnauthorizedException(
         `You don't have permission to delete this post`,
       );
     }
 
-    await this.postsService.remove(+id);
+    await this.postsService.remove(id);
     return {
       status: 'success',
       data: null,

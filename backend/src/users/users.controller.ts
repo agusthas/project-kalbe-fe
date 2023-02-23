@@ -7,8 +7,8 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import RequestWithUser from 'src/auth/request-with-user.interface';
+import { AuthUser } from 'src/auth/auth-user.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { UpdateUserDto } from './dto';
 import { UsersService } from './users.service';
 
@@ -18,8 +18,8 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Get('me')
-  async getMe(@Request() req: RequestWithUser) {
-    const user = await this.usersService.getById(req.user.id, {
+  async getMe(@AuthUser('id') userId: number) {
+    const user = await this.usersService.getById(userId, {
       withRelations: true,
     });
     return {
@@ -31,10 +31,10 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Put('me')
   async updateMe(
-    @Request() req: RequestWithUser,
+    @AuthUser('id') userId: number,
     @Body() userData: UpdateUserDto,
   ) {
-    const user = await this.usersService.update(req.user.id, userData);
+    const user = await this.usersService.update(userId, userData);
     return {
       status: 'success',
       data: user,
