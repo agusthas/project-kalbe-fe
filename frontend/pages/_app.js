@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 // import "bootstrap/dist/css/bootstrap.css";
-import 'styles/scss/global.scss';
+import '@/styles/scss/global.scss';
 
 import { useEffect } from "react";
 
