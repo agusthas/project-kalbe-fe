@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateUserDto } from './dto';
+import { CreateUserDto, UpdateUserDto } from './dto';
 
 @Injectable()
 export class UsersService {
@@ -24,11 +24,24 @@ export class UsersService {
     return user;
   }
 
-  async getById(id: number) {
+  async getById(id: number, options?: { withRelations: boolean }) {
     const user = await this.prisma.user.findUnique({
       where: {
         id,
       },
+      include: options?.withRelations
+        ? { posts: true, comments: true, _count: true }
+        : undefined,
+    });
+
+    return user;
+  }
+
+  async update(userId: number, userData: UpdateUserDto) {
+    const user = await this.prisma.user.update({
+      where: { id: userId },
+      data: userData,
+      include: { posts: true, comments: true, _count: true },
     });
 
     return user;
