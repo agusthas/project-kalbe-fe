@@ -3,12 +3,13 @@ import {
   Controller,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import RequestWithUser from 'src/auth/request-with-user.interface';
+import { AuthUser } from 'src/auth/auth-user.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto';
 
@@ -19,13 +20,13 @@ export class CommentsController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async create(
-    @Request() req: RequestWithUser,
-    @Param('postId') postId: string,
+    @AuthUser('id') userId: number,
+    @Param('postId', ParseIntPipe) postId: number,
     @Body() commentData: CreateCommentDto,
   ) {
     const comment = await this.commentsService.create(
-      +postId,
-      req.user.id,
+      postId,
+      userId,
       commentData,
     );
     return {
