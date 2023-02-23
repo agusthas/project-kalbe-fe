@@ -36,7 +36,7 @@ const CreatePost = () => {
                         <p className="w-75 fw-bold align-middle"><span className="text-danger">*</span> must be filled</p>
                         <div className="d-flex justify-content-between w-25">
                             <Link href={`/`}>
-                                <Button className="btn btn-danger fw-bold">Cancel</Button>
+                                <Button className="btn text-white btn-danger fw-bold">Cancel</Button>
                             </Link>
                             <Link href={`/`}>
                                 <Button className="btn btn-primary fw-bold" type="submit">Create</Button>
