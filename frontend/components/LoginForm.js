@@ -4,7 +4,7 @@ const LoginForm = () => {
   return (
     <>
       <Container className="py-5 w-75">
-        <h1>Logins</h1>
+        <h1>Sing In to Your Account</h1>
       </Container>
     </>
   );
