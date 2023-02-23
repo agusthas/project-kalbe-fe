@@ -5,6 +5,7 @@ import {
   Get,
   NotFoundException,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Request,
@@ -13,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import RequestWithUser from 'src/auth/request-with-user.interface';
-import { CreatePostDto } from './dto';
+import { CreatePostDto, UpdatePostDto } from './dto';
 import { PostsService } from './posts.service';
 
 @Controller('posts')
@@ -43,8 +44,8 @@ export class PostsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const post = await this.postsService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const post = await this.postsService.findOne(id);
     if (!post) throw new NotFoundException(`Post with ID ${id} not found`);
 
     return {
@@ -57,10 +58,10 @@ export class PostsController {
   @Put(':id')
   async update(
     @Request() req: RequestWithUser,
-    @Param('id') id: string,
-    @Body() postData: CreatePostDto,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() postData: UpdatePostDto,
   ) {
-    const post = await this.postsService.findOne(+id);
+    const post = await this.postsService.findOne(id);
     if (!post) throw new NotFoundException(`Post with ID ${id} not found`);
 
     // Only the owner of the post can update it
@@ -70,7 +71,7 @@ export class PostsController {
       );
     }
 
-    const updatedPost = await this.postsService.update(+id, postData);
+    const updatedPost = await this.postsService.update(id, postData);
     return {
       status: 'success',
       data: updatedPost,
@@ -79,8 +80,11 @@ export class PostsController {
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  async remove(@Request() req: RequestWithUser, @Param('id') id: string) {
-    const post = await this.postsService.findOne(+id);
+  async remove(
+    @Request() req: RequestWithUser,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    const post = await this.postsService.findOne(id);
     if (!post) throw new NotFoundException(`Post with ID ${id} not found`);
 
     // Only the owner of the post can delete it
@@ -90,7 +94,7 @@ export class PostsController {
       );
     }
 
-    await this.postsService.remove(+id);
+    await this.postsService.remove(id);
     return {
       status: 'success',
       data: null,

@@ -6,7 +6,6 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { CreateUserDto } from 'src/users/dto';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './local-auth.guard';
