@@ -12,7 +12,7 @@ export default function LatestPostCard({post}){
                     <p className="card-text">by <span className="fw-semibold">{post.author.name}</span></p>
                     <p className="card-text">{formatDate(new Date(post.createdAt))}</p>
                 </div>
-                <p class="card-text line-clamp-4 text-secondary">{parser(post.description)}</p>
+                <p class="card-text line-clamp-4 text-muted">{parser(post.description)}</p>
             </div>
             <a href={`/posts/${post.id}`} class="btn btn-outline-primary w-100">Read Blog</a>
         </div>
