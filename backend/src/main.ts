@@ -1,12 +1,25 @@
+import { Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
+import { PUBLIC_DIR } from './constants';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const config = app.get(ConfigService);
+
+  app.useStaticAssets(PUBLIC_DIR, {
+    index: false,
+    prefix: '/public/',
+  });
   // set cors
   app.enableCors();
 
-  await app.listen(3001);
+  const PORT = config.get('app.port');
+  const URL = config.get('app.url');
+  await app.listen(PORT, () => {
+    Logger.log('Listening at ' + URL, 'Bootstrap');
+  });
 }
 bootstrap();
