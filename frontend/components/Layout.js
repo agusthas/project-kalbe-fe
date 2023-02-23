@@ -2,7 +2,7 @@ import Head from "next/head"
 import Navbar from "./Navbar"
 import Footer from "./Footer"
 
-export default function Layout({showNavbar = true, title, children}){
+export default function Layout({showNavbar = true, title = "MyBlog", children}){
     return(
         <>
             <Head>
@@ -12,7 +12,7 @@ export default function Layout({showNavbar = true, title, children}){
                 <link href='http://fonts.googleapis.com/css?family=Inter:500,200,700' rel='stylesheet' type='text/css'></link>
             </Head>
             {showNavbar && <Navbar/>}
-            <main className="main py-5">
+            <main className="main">
                 {children}
             </main>
             <Footer/>
