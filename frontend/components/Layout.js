@@ -2,7 +2,7 @@ import Head from "next/head"
 import Navbar from "./Navbar"
 import Footer from "./Footer"
 
-export default function Layout({showNavbar = true, title, children}){
+export default function Layout({showNavbar = true, title = "MyBlog", children}){
     return(
         <>
             <Head>
@@ -11,7 +11,7 @@ export default function Layout({showNavbar = true, title, children}){
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
             {showNavbar && <Navbar/>}
-            <main className="main py-5">
+            <main className="main">
                 {children}
             </main>
             <Footer/>

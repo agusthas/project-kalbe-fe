@@ -1,15 +1,32 @@
-import Link from "next/link";
-import Layout from "@/components/Layout";
-import { Button, Container } from "react-bootstrap";
+import Layout from "@/components/Layout"
+import HeroSection from "@/components/HeroSection"
+import LatestPostSection from "@/components/LatestPostSection"
+import PostSection from "@/components/PostSection"
 
-export default function Home() {
+export default function Home({posts}) {
   return (
     <Layout>
-      <Container className="d-flex justify-content-end">
-          <Link href={`/posts/create`}>
-            <Button className="btn btn-primary fw-bold px-3">Create Blog</Button>  
-          </Link>
-      </Container> 
+      <HeroSection/>
+      <LatestPostSection latestPosts={posts.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0,3)}/>
+      <PostSection posts={posts}/>
     </Layout>
   );
+}
+
+async function getAllPosts(){
+  const posts = await fetch("http://localhost:3001/posts")
+                  .then(res => res.json())
+                  .catch(error => console.log(error))
+  return posts?.data
+}
+
+export async function getStaticProps(){
+  const posts = await getAllPosts() ?? []
+
+  return {
+    props: {
+      posts
+    },
+    revalidate: 30
+  }
 }
