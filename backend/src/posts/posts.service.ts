@@ -1,12 +1,24 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { StorageService } from 'src/storage/storage.service';
 import { CreatePostDto, UpdatePostDto } from './dto';
 
 @Injectable()
 export class PostsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly storageService: StorageService,
+    private readonly configService: ConfigService,
+  ) {}
 
   async create(postData: CreatePostDto, userId: number) {
+    if (postData.image) {
+      postData.image = (
+        await this.storageService.downloadFile(postData.image)
+      ).path;
+    }
+
     const post = await this.prisma.post.create({
       data: {
         title: postData.title,
@@ -69,12 +81,18 @@ export class PostsService {
   }
 
   async update(id: number, postData: UpdatePostDto) {
-    const post = await this.prisma.post.update({
+    if (postData.image) {
+      postData.image = (
+        await this.storageService.downloadFile(postData.image)
+      ).path;
+    }
+
+    const updatedPost = await this.prisma.post.update({
       where: { id },
       data: postData,
     });
 
-    return post;
+    return updatedPost;
   }
 
   async remove(id: number) {
