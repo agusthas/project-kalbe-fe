@@ -1,17 +1,19 @@
 import Layout from "@/components/Layout";
+import ProfileCard from "@/components/ProfileCard";
+import ProfilePostSection from "@/components/ProfilePostSection";
+import { getPosts } from "@/modules/posts/api";
+import { getUser } from "@/modules/users/api";
 import { Container } from "react-bootstrap";
-import { useRouter } from "next/router";
 
-const Profile = () => {
-    const router = useRouter();
-    const user = router.query.userId;
-    const userData = getUserById(user)
+const Profile = ({user, posts}) => {
     return (
         <Layout>
             <Container className="px-0 py-5">
-                <h1>Profile</h1>
-                <p>Name: {user.name}</p>
-                
+                <div className="mx-auto w-75 py-3">
+                    <ProfileCard user={user} />
+                </div>
+                <hr></hr>
+                <ProfilePostSection user={user} posts={posts} />
             </Container>
         </Layout>
     )
@@ -19,28 +21,13 @@ const Profile = () => {
 
 export default Profile; 
 
-async function getUserById(id){
-    const user = await fetch(`http://localhost:3001/users/${id}`)
-    .then(res => res.json())
-    .catch(error => console.log(error))
-    return user?.data
-}
-
-export async function getStaticPaths(){
-    return{
-        paths: [
-            {params: {userId: '1'}}
-        ],
-        fallback: false
-    }
-}
-
-export async function getStaticProps(){
-    const user = await getUserById() ?? []
+export async function getServerSideProps({params}){
+    const user = await getUser(params.userId).then(res => res.data)
+    const posts = await getPosts().then(res => res.data)
     return {
         props: {
-            user
-        },
-        revalidate: 30
+            user: user.data ?? [],
+            posts: posts.data ?? []
+        }
     }
 }
