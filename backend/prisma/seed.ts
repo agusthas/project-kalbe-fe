@@ -10,7 +10,7 @@ const users = [
     name: 'Alice Smith',
     password: 'password',
     phone: '08123456789',
-    bio: faker.lorem.paragraphs(4),
+    bio: faker.lorem.sentence(5),
     avatar: `https://api.dicebear.com/5.x/lorelei/svg?seed=${faker.random.alpha(
       5,
     )}`,
@@ -20,7 +20,7 @@ const users = [
     name: 'John Doe',
     password: 'password',
     phone: '08123456781',
-    bio: faker.lorem.paragraphs(4),
+    bio: faker.lorem.sentence(5),
     avatar: `https://api.dicebear.com/5.x/lorelei/svg?seed=${faker.random.alpha(
       5,
     )}`,
@@ -55,7 +55,7 @@ async function main() {
   for (const user of users) {
     const userPosts = await prisma.post.createMany({
       data: Array.from({ length: 5 }).map(() => ({
-        title: faker.lorem.sentence(),
+        title: faker.lorem.words(),
         description: faker.lorem.paragraphs(4, '<br />'),
         image: faker.image.imageUrl(),
         categoryId: faker.datatype.number({ min: 1, max: categories.length }),
