@@ -1,7 +1,14 @@
-import { IsNumber, IsOptional, IsString, IsUrl } from 'class-validator';
+import {
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUrl,
+  MaxLength,
+} from 'class-validator';
 
 export class CreatePostDto {
   @IsString()
+  @MaxLength(50)
   title: string;
 
   @IsString()
@@ -18,6 +25,7 @@ export class CreatePostDto {
 export class UpdatePostDto {
   @IsOptional()
   @IsString()
+  @MaxLength(50)
   title?: string;
 
   @IsOptional()
