@@ -32,8 +32,8 @@ export default function PostSection({posts, categories}){
             </div>
             <div className="row g-3">
                 {filteredPosts.map(post => (
-                    <div className="col-lg-3 col-md-4 mb-3">
-                        <PostCard post={post} key={post.id}/>
+                    <div className="col-lg-3 col-md-4 mb-3" key={post.id}>
+                        <PostCard post={post}/>
                     </div>
                 ))}
             </div>
