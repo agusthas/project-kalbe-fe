@@ -11,8 +11,8 @@ export default function LatestPostSection({latestPosts}){
             </div>
             <div className="row g-3 justify-content-center">
                 {latestPosts.map(post => (
-                    <div className="col-lg-4 col-md-6 mb-3">
-                        <LatestPostCard post={post} key={post.id}/>
+                    <div className="col-lg-4 col-md-6 mb-3" key={post.id}>
+                        <LatestPostCard post={post}/>
                     </div>
                 ))}
             </div>
