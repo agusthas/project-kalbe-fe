@@ -43,6 +43,7 @@ export class PostsService {
           select: {
             id: true,
             name: true,
+            avatar: true,
           },
         },
         category: {
@@ -67,6 +68,7 @@ export class PostsService {
               select: {
                 id: true,
                 name: true,
+                avatar: true,
               },
             },
           },
