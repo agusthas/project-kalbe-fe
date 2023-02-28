@@ -75,7 +75,7 @@ export default function Post({post}){
                     </div>
                     <div className="col-md-8">
                         {post.comments.map(comment => (
-                            <CommentCard comment={comment}/>
+                            <CommentCard comment={comment} key={comment.id}/>
                         ))}
                     </div>
                 </div>

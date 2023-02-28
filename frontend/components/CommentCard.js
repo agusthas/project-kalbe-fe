@@ -8,7 +8,7 @@ export default function CommentCard({comment}){
         setDateString(formatDate(new Date(comment.createdAt)))
     },[])
     return(
-        <div className="card" key={comment.id}>
+        <div className="card mb-3">
             <div className="card-body d-flex gap-3">
                 <ImageWithFallback
                     src={comment.author.avatar}
