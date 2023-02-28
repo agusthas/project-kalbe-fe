@@ -52,6 +52,19 @@ export class PostsService {
             name: true,
           },
         },
+        comments: {
+          select: {
+            content: true,
+            author: {
+              select: {
+                id: true,
+                name: true,
+                avatar: true,
+              },
+            },
+          },
+        },
+        _count: true,
       },
     });
   }
