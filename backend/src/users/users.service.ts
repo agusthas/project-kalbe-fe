@@ -30,7 +30,26 @@ export class UsersService {
         id,
       },
       include: options?.withRelations
-        ? { posts: true, comments: true, _count: true }
+        ? {
+            posts: {
+              include: {
+                category: true,
+                comments: true,
+              },
+            },
+            comments: {
+              include: {
+                author: {
+                  select: {
+                    id: true,
+                    name: true,
+                    avatar: true,
+                  },
+                },
+              },
+            },
+            _count: true,
+          }
         : undefined,
     });
 
