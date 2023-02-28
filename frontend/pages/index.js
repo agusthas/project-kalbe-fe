@@ -24,6 +24,6 @@ export async function getStaticProps(){
       posts: posts.data ?? [],
       categories: categories.data ?? []
     },
-    revalidate: 30
+    revalidate: 10
   }
 }

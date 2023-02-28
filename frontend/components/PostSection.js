@@ -13,12 +13,12 @@ export default function PostSection({posts, categories}){
 
     return(
         <Container className="py-5 min-vh-100">
-            <div className="row mb-4">
+            <div className="row mb-3">
                 <div className="col text-center">
                     <h2 className="fw-bold">Our Posts</h2>
                 </div>
             </div>
-            <div className="row mb-4">
+            <div className="row mb-4 pt-3 position-sticky top-0" style={{zIndex: '999', background: 'white'}}>
                 <ul className="nav nav-tabs">
                     <li className="nav-item">
                         <a className={`nav-link ${activeCategory === 'all' ? "active text-primary" : "text-dark"}`} style={{cursor: 'pointer'}} onClick={() => filterByCategory('all')}>View All</a>
