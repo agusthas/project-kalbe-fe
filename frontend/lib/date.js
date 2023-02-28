@@ -1,5 +1,5 @@
-const options = { year: 'numeric', month: 'short', day: 'numeric' };
+const defaultOptions = { year: 'numeric', month: 'short', day: 'numeric' }
 
-export function formatDate(date){
-    return date.toLocaleDateString('id', options)
+export function formatDate(date, options = null){
+    return date.toLocaleDateString('en-us', options ?? defaultOptions)
 }

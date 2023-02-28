@@ -3,7 +3,7 @@ import LatestPostCard from "./LatestPostCard"
 
 export default function LatestPostSection({latestPosts}){
     return(
-        <Container className="py-5">
+        <Container className="py-5" id="post-section">
             <div className="row mb-4">
                 <div className="col text-center">
                     <h2 className="fw-bold">Latest Blogs</h2>

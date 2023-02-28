@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
+    dangerouslyAllowSVG: true,
     remotePatterns: [
       {
         protocol: 'http',
@@ -18,6 +19,12 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'loremflickr.com',
+        port: '',
+        pathname: '/**/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.dicebear.com',
         port: '',
         pathname: '/**/**',
       },

@@ -2,6 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button, Container } from "react-bootstrap"
 import HeroImage from "../public/images/hero-image.png"
+import { ScrollIntoView } from "@/lib/scroll"
 
 export default function HeroSection(){
     return(
@@ -11,8 +12,12 @@ export default function HeroSection(){
                     <h1 className="display-4 fw-bold mb-3">Start writing your own blog.</h1>
                     <p className="fs-5 mb-3">Join our community with over 10.000+ users.</p>
                     <div className="d-flex gap-3">
-                        <Button variant="primary" className="col-md-4 fw-semibold">Get Started</Button>
-                        <Button variant="outline-primary" className="col-md-4 fw-semibold">Be a reader</Button>
+                        <Link href={"/register"} className="col-md-4">
+                            <Button variant="primary" className="fw-semibold w-100">
+                                Get Started
+                            </Button>
+                        </Link>
+                        <Button variant="outline-primary" className="col-md-4 fw-semibold" onClick={() => ScrollIntoView({id:'post-section'})}>Be a reader</Button>
                     </div>
                 </div>
                 <div className="col-md-6 position-relative">
