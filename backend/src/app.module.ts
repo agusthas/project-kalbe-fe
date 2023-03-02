@@ -14,6 +14,7 @@ import { StorageModule } from './storage/storage.module';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { LoggerModule } from 'nestjs-pino';
 
 @Module({
   imports: [
@@ -21,6 +22,17 @@ import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
       isGlobal: true,
       load: [configuration],
       expandVariables: true,
+    }),
+    LoggerModule.forRoot({
+      pinoHttp: {
+        level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
+        transport:
+          process.env.NODE_ENV !== 'production'
+            ? {
+                target: 'pino-pretty',
+              }
+            : undefined,
+      },
     }),
     UsersModule,
     AuthModule,
