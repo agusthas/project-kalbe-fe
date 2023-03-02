@@ -110,6 +110,7 @@ const UpdateProfile = ({user}) => {
     )
 }
 
+UpdateProfile.auth = true
 export default UpdateProfile;
 
 export async function getServerSideProps({params}){

@@ -81,6 +81,7 @@ const UpdatePost = ({post, categories}) => {
     )
 }
 
+UpdatePost.auth = true
 export default UpdatePost;
 
 export async function getServerSideProps({params}){
