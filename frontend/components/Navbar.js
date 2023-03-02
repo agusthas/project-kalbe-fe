@@ -8,7 +8,7 @@ const Navbar = () => {
     const router = useRouter()
     const activeLink = (url, pathname) => pathname === url ? "text-primary" : "text-dark"
 
-    const { status, session } = useSession()
+    const { status, data: session } = useSession()
     if(status === 'loading'){
         return <LoadingScreen/>
     }
@@ -42,7 +42,7 @@ const Navbar = () => {
                             </a>
                             <ul class="dropdown-menu">
                                 <li><Link class="dropdown-item" href={`/profile/view/${session.user.id}`}>Profile</Link></li>
-                                <li><Link class="dropdown-item" onClick={() => signOut()}>Logout</Link></li>
+                                <li><a class="dropdown-item" onClick={() => signOut()}>Logout</a></li>
                             </ul>
                         </li>
                         :
