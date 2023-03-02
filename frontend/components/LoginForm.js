@@ -25,7 +25,7 @@ const LoginForm = () => {
   };
 
   return (
-    <>
+    <div style={{minHeight: '85vh'}}>
       <h1 className="text-center my-5">Sign In to Your Account</h1>
       <Container className="rounded mb-5 py-5 w-50 d-flex justify-content-center shadow">
         <form onSubmit={submitHandler} className="w-100 px-5">
@@ -83,7 +83,7 @@ const LoginForm = () => {
           </div>
         </form>
       </Container>
-    </>
+    </div>
   );
 };
 
