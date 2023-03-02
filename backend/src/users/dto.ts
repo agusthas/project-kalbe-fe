@@ -23,9 +23,10 @@ export class CreateUserDto {
   @MaxLength(15)
   phone: string;
 
+  @IsOptional()
   @IsString()
   @MaxLength(200)
-  bio: string;
+  bio?: string;
 
   @IsOptional()
   @IsUrl()
