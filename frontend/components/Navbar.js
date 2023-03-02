@@ -15,7 +15,7 @@ const Navbar = () => {
     else return (
         <Container fluid className="shadow" style={{zIndex: '999'}}>
             <nav class="navbar navbar-expand-lg bg-white container py-3">
-                <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                <a class="navbar-brand d-flex align-items-center gap-2" href="/">
                     <Image src="/favicon.ico"/>
                     <h3 className="fw-bold mb-0">MyBlog</h3>
                 </a>
@@ -35,16 +35,18 @@ const Navbar = () => {
                     }
                     {
                         status === 'authenticated' ?
-                        <li class="nav-item dropdown d-flex ms-lg-3 ms-lg-3 mt-3 mt-lg-0">
+                        <div className="d-flex align-items-start ms-lg-3 ms-lg-3 mt-3 mt-lg-0">
                             <Image src={session.user.avatar} width={40} height={40} className="rounded-circle" style={{objectFit: 'cover'}}/>
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {session.user.name}
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><Link class="dropdown-item" href={`/profile/view/${session.user.id}`}>Profile</Link></li>
-                                <li><a class="dropdown-item" onClick={() => signOut()}>Logout</a></li>
-                            </ul>
-                        </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {session.user.name}
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><Link class="dropdown-item" href={`/profile/view/${session.user.id}`}>Profile</Link></li>
+                                    <li><a class="dropdown-item" onClick={() => signOut()}>Logout</a></li>
+                                </ul>
+                            </li>
+                        </div>
                         :
                         <li className="nav-item ms-lg-3 mt-3 mt-lg-0">
                             <Link href={"/login"}>
