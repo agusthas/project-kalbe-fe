@@ -19,6 +19,7 @@ const Profile = ({user, posts}) => {
     )
 }
 
+Profile.auth = true
 export default Profile; 
 
 export async function getServerSideProps({params}){

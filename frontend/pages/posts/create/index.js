@@ -85,6 +85,7 @@ const CreatePost = ({categories}) => {
     )
 }
 
+CreatePost.auth = true
 export default CreatePost;
 
 export async function getServerSideProps(){
