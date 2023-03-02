@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  NotFoundException,
   Param,
   Put,
   Request,
@@ -47,6 +48,10 @@ export class UsersController {
     const user = await this.usersService.getById(+id, {
       withRelations: true,
     });
+    if (!user) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+
     return {
       status: 'success',
       data: new UserEntity(user),
