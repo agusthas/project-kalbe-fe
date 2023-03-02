@@ -47,7 +47,11 @@ const Navbar = () => {
                         </li>
                         :
                         <li className="nav-item ms-lg-3 mt-3 mt-lg-0">
-                            <Button variant="primary">Sign In</Button>
+                            <Link href={"/login"}>
+                                <Button variant="primary">
+                                    Sign In
+                                </Button>
+                            </Link>
                         </li>
                     }
                 </ul>
