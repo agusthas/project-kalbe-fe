@@ -27,7 +27,7 @@ function Auth({ children }) {
   const { status } = useSession({ 
     required: true,
     onUnauthenticated(){
-      router.push('/login')
+      router.push('/login' + (router.pathname !== '/' ? `?callbackUrl=${router.asPath}` : ''))
     },
   })
 

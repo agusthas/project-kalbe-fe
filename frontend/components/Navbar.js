@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { Button, Container, Image } from "react-bootstrap";
 import { signOut } from "next-auth/react";
 import LoadingScreen from "./LoadingScreen";
+import ImageWithFallback from "./ImageWithFallback";
 const Navbar = () => {
     const router = useRouter()
     const activeLink = (url, pathname) => pathname === url ? "text-primary" : "text-dark"
@@ -35,6 +36,7 @@ const Navbar = () => {
                     }
                     {
                         status === 'authenticated' ?
+
                         <div className="d-flex align-items-start ms-lg-3 ms-lg-3 mt-3 mt-lg-0">
                             <Image src={session.user.avatar} width={40} height={40} className="rounded-circle" style={{objectFit: 'cover'}}/>
                             <li class="nav-item dropdown">

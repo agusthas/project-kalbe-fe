@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { Image } from "react-bootstrap";
-import ImageWithFallback from "./ImageWithFallback";
 
-const ProfileCard = ({user}) => {
+const ProfilePreviewCard = ({user}) => {
     return(
         <div className="d-flex align-items-center">
             <div>
@@ -15,12 +14,9 @@ const ProfileCard = ({user}) => {
                 <h6>{user.email}</h6>
                 <p>{user.bio}</p>
                 <p className="fw-bold mb-0">{user.posts.length} Posts <span className="fw-light">|</span> {user.comments.length} Comments</p>
-                <Link className="btn btn-primary fw-bold my-3" href={`/profile/update/${user.id}`}>
-                    Update Profile
-                </Link>
             </div>
         </div>
     )
 }
 
-export default ProfileCard;
+export default ProfilePreviewCard;
