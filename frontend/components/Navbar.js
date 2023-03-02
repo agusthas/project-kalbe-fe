@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { Button, Container, Image } from "react-bootstrap";
 import { signOut } from "next-auth/react";
 import LoadingScreen from "./LoadingScreen";
+import ImageWithFallback from "./ImageWithFallback";
 const Navbar = () => {
     const router = useRouter()
     const activeLink = (url, pathname) => pathname === url ? "text-primary" : "text-dark"
@@ -36,7 +37,14 @@ const Navbar = () => {
                     {
                         status === 'authenticated' ?
                         <li class="nav-item dropdown d-flex ms-lg-3 ms-lg-3 mt-3 mt-lg-0">
-                            <Image src={session.user.avatar} width={40} height={40} className="rounded-circle" style={{objectFit: 'cover'}}/>
+                            <ImageWithFallback 
+                                src={session.user.avatar}
+                                fallbackSrc={`/images/profile-picture-placeholder.jpg`}
+                                width={40}
+                                height={40}
+                                className="rounded-circle"
+                                style={{objectFit: 'cover'}}
+                            />
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 {session.user.name}
                             </a>
