@@ -10,6 +10,7 @@ import {
 import { AuthUser } from 'src/auth/auth-user.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { UpdateUserDto } from './dto';
+import { UserEntity } from './entity';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -24,7 +25,7 @@ export class UsersController {
     });
     return {
       status: 'success',
-      data: user,
+      data: new UserEntity(user),
     };
   }
 
@@ -37,7 +38,7 @@ export class UsersController {
     const user = await this.usersService.update(userId, userData);
     return {
       status: 'success',
-      data: user,
+      data: new UserEntity(user),
     };
   }
 
@@ -46,10 +47,9 @@ export class UsersController {
     const user = await this.usersService.getById(+id, {
       withRelations: true,
     });
-    delete user.password;
     return {
       status: 'success',
-      data: user,
+      data: new UserEntity(user),
     };
   }
 }
