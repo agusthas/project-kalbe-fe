@@ -1,8 +1,10 @@
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { Container } from "react-bootstrap";
 
 const LoginForm = () => {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -16,11 +18,12 @@ const LoginForm = () => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
+    let callbackUrl = router.query.callbackUrl || "/";
 
     await signIn("credentials", {
       email: email,
       password: password,
-      callbackUrl: "/",
+      callbackUrl,
     });
   };
 
