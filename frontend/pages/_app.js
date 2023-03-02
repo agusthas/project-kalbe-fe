@@ -3,6 +3,7 @@ import '@/styles/scss/global.scss';
 import { useEffect } from "react";
 import { SessionProvider, useSession } from "next-auth/react"
 import { useRouter } from "next/router";
+import LoadingScreen from "@/components/LoadingScreen";
 
 export default function App({ Component, pageProps: {session, ...pageProps} }) {
   useEffect(() => {
@@ -31,7 +32,7 @@ function Auth({ children }) {
   })
 
   if (status === "loading") {
-    return <div>Loading...</div>
+    return <LoadingScreen/>
   }
 
   return children
