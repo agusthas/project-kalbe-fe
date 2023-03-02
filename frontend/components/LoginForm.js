@@ -1,48 +1,72 @@
-import React from "react"
+import { login } from "@/modules/auth/api";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
+import React, { useState } from "react"
 import { Container } from "react-bootstrap"
 
-class LoginForm extends React.Component {
+const LoginForm = () => {
+  const router = useRouter()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
-  state = {
-    email: '',
-    password: ''
+  const emailChangeHandler = event => {
+    setEmail(event.target.value)
   }
-  
-  handleChange = event => {
-    this.setState({[event.target.name]: event.target.value})
+
+  const passwordChangeHandler = event => {
+    setPassword(event.target.value)
   }
-  
-  handleSubmit = event => {
-    const {email, password} = this.state
-    
+
+  const submitHandler = event => {
     event.preventDefault()
-    console.log()
+
+  const user = {
+    email: email, 
+    password: password
   }
-  
-  render(){
-    return (
+
+    login(user)
+      .then((response) => {
+        console.log(response)
+        router.push('/')
+      }) 
+      .catch((error) => {
+        console.log(error)
+        //TODO 
+      })
+      .finally(() => {
+        setEmail('')
+        setPassword('')
+      })
+  }
+
+  return (
       <>
         <h1 className="text-center my-5">Sign In to Your Account</h1>
         <Container className="rounded mb-5 py-5 w-50 d-flex justify-content-center shadow">
-          <form action="" className="w-100 px-5" onSubmit={this.handleSubmit}>
+          <form onSubmit={submitHandler} className="w-100 px-5">
             <div className="mb-4">
               <label className="mb-1">Email Address</label>
               <input
+                id="email"
                 type="email"
                 name="email"
                 className="form-control"
                 placeholder="Enter your email..."
-                onChange={this.handleChange}
+                value={email}
+                onChange={emailChangeHandler}
               />
             </div>
             <div className="mb-4">
               <label className="mb-1">Password</label>
               <input
+                id="password"
                 type="password"
                 name="password"
                 className="form-control"
                 placeholder="Enter your password..."
-                onChange={this.handleChange}
+                value={password}
+                onChange={passwordChangeHandler}
               />
             </div>
             <div className="mb-4">
@@ -78,6 +102,6 @@ class LoginForm extends React.Component {
       </>
     );
   };
-}
+
 
 export default LoginForm;

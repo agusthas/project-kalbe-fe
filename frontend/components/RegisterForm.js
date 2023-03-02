@@ -33,13 +33,6 @@ const RegisterForm = () => {
 
   const submitHandler = event => {
     event.preventDefault()
-    // console.log({
-    //   name: name,
-    //     email: email,
-    //     password: password,
-    //     confirm: confirm,
-    //     phone: phone
-    // })
     if(password != confirm) return
 
     const newUser = {
@@ -49,15 +42,22 @@ const RegisterForm = () => {
         phone: phone
     }
 
-
-    
-    setName('')
-    setEmail('')
-    setPassword('')
-    setConfirm('')
-    setPhone('')
-
-    router.push('/')
+    register(newUser)
+      .then((response) => {
+        console.log(response)
+        router.push('/login')
+      }) 
+      .catch((error) => {
+        console.log(error)
+        //TODO 
+      })
+      .finally(() => {
+        setName('')
+        setEmail('')
+        setPassword('')
+        setConfirm('')
+        setPhone('')
+      })
   }
 
   return (
@@ -88,7 +88,7 @@ const RegisterForm = () => {
             />
           </div>
           <div className="d-flex justify-content-between">
-            <div className="mb-4" style={{ width: "325px" }}>
+            <div className="mb-4" style={{ width: "310px" }}>
               <label className="mb-1">Password</label>
               <input
                 id="password"
@@ -99,7 +99,7 @@ const RegisterForm = () => {
                 onChange={passwordChangeHandler}
               />
             </div>
-            <div className="mb-4" style={{ width: "325px" }}>
+            <div className="mb-4" style={{ width: "310px" }}>
               <label className="mb-1">Confirm Password</label>
               <input
                 id="confirm"
