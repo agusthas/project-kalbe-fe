@@ -1,4 +1,5 @@
 import Layout from "@/components/Layout";
+import LoadingScreen from "@/components/LoadingScreen";
 import ProfileCard from "@/components/ProfileCard";
 import ProfilePostSection from "@/components/ProfilePostSection";
 import { getPosts } from "@/modules/posts/api";

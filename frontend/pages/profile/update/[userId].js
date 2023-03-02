@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import ProfileCard from "@/components/ProfileCard";
+import ProfilePreviewCard from "@/components/ProfilePreviewCard";
 import { getUser } from "@/modules/users/api";
 import Link from "next/link";
 import { useState } from "react";
@@ -44,7 +45,7 @@ const UpdateProfile = ({user}) => {
 
     const updateHandler = (e) => {
         e.preventDefault()
-        setImage('')
+        setAvatar('')
         setName('')
         setEmail('')
         setPassword('')
@@ -60,13 +61,13 @@ const UpdateProfile = ({user}) => {
                 <Form.Group className="py-3 mx-auto w-75">
                     <Form.Label>Banner Preview</Form.Label>
                     <div className="border border-2 rounded-3 p-3">
-                        <ProfileCard user={user} />
+                        <ProfilePreviewCard user={user} />
                     </div>
                 </Form.Group>
                 <Form className="w-50 mx-auto py-3" action="/" method="POST">
                 <Form.Group className="py-3">
                         <Form.Label htmlFor="avatar" className="w-25">Profile Picture URL</Form.Label>
-                        <Form.Control onChange={avatarChangeHandler} required id="avatar" name="avatar" type="text" value={avatar}/>
+                        <Form.Control onChange={avatarChangeHandler} id="avatar" name="avatar" type="text" value={avatar}/>
                     </Form.Group>
                     <Form.Group className="py-3">
                         <Form.Label htmlFor="name" className="w-25">Name</Form.Label>
@@ -92,7 +93,7 @@ const UpdateProfile = ({user}) => {
                     </Form.Group>
                     <Form.Group className="py-3">
                         <Form.Label htmlFor="bio" className="w-25">Bio</Form.Label>
-                        <Form.Control onChange={bioChangeHandler} required id="bio" name="bio" as="textarea" rows={5} className="mt-1 mb-3" value={bio} />
+                        <Form.Control onChange={bioChangeHandler} id="bio" name="bio" as="textarea" rows={5} className="mt-1 mb-3" value={bio} />
                     </Form.Group>
                     <div className="d-flex justify-content-end">
                         <div className="d-flex justify-content-between w-25">
