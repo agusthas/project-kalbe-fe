@@ -64,7 +64,7 @@ const RegisterForm = () => {
         } else if (name.length < 50) {
           setAlertName('')
         }
-
+    
         if (password.length < 8) {
           setAlertPassword('Password must be at least 8 characters')
         } else if (password.length > 8){
@@ -73,9 +73,9 @@ const RegisterForm = () => {
 
         if(phone.length < 10 || phone.length > 15){
           setAlertPhone('Phone length must be between 10 and 15')
-        } else if (phone.length > 10 && phone.length < 15){
+        } else if (phone.length > 10 || phone.length < 15){
           setAlertPhone('')
-        } 
+        }
       })
       .finally(() => {
         setName('')

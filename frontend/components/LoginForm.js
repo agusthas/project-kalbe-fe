@@ -64,21 +64,6 @@ const LoginForm = () => {
               required
             />
           </div>
-          <div className="mb-4">
-            <div className="custom-control custom-checkbox">
-              <input
-                type="checkbox"
-                className="custom-control-input"
-                id="customCheck1"
-              />
-              <label
-                className="custom-control-label mx-2"
-                htmlFor="customCheck1"
-              >
-                Remember me
-              </label>
-            </div>
-          </div>
           <div className="d-grid mb-4">
             <button type="submit" className="btn btn-primary py-2" style={{fontWeight: 'bold'}}>
               Sign In
