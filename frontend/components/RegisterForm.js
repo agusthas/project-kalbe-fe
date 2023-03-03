@@ -10,6 +10,11 @@ const RegisterForm = () => {
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
   const [phone, setPhone] = useState('')
+
+  const [alertName, setAlertName] = useState('')
+  const [alertPassword, setAlertPassword] = useState('')
+  const [alertConfirm, setAlertConfrim] = useState('')
+  const [alertPhone, setAlertPhone] = useState('')
   
   const nameChangeHandler = event => {
     setName(event.target.value)
@@ -33,7 +38,10 @@ const RegisterForm = () => {
 
   const submitHandler = event => {
     event.preventDefault()
-    if(password != confirm) return
+    if(password != confirm) {
+      setAlertConfrim('Confirm Password must be same with Password')
+      return
+    }
 
     const newUser = {
         name: name,
@@ -49,7 +57,21 @@ const RegisterForm = () => {
       }) 
       .catch((error) => {
         console.log(error)
-        //TODO 
+        if(name.length > 50){
+          setAlertName('Name must be not exceed 50 characters')
+        }
+
+        if (password.length < 8) {
+          setAlertPassword('Password must be at least 8 characters')
+        } else if (password.length > 8){
+          setAlertPassword('')
+        }
+
+        if(phone.length < 10 || phone.length > 15){
+          setAlertPhone('Phone length must be between 10 and 15')
+        } else if (phone.length > 10 || phone.length < 15){
+          setAlertPhone('')
+        } 
       })
       .finally(() => {
         setName('')
@@ -74,6 +96,7 @@ const RegisterForm = () => {
               placeholder="Enter your name..."
               value={name}
               onChange={nameChangeHandler}
+              required
             />
           </div>
           <div className="mb-4">
@@ -85,6 +108,7 @@ const RegisterForm = () => {
               placeholder="Enter your email..."
               value={email}
               onChange={emailChangeHandler}
+              required
             />
           </div>
           <div className="d-flex justify-content-between">
@@ -97,6 +121,7 @@ const RegisterForm = () => {
                 placeholder="Enter your password..."
                 value={password}
                 onChange={passwordChangeHandler}
+                required
               />
             </div>
             <div className="mb-4" style={{ width: "310px" }}>
@@ -108,6 +133,7 @@ const RegisterForm = () => {
                 placeholder="Confirm your password..."
                 value={confirm}
                 onChange={confirmChangeHandler}
+                required
               />
             </div>
           </div>
@@ -120,6 +146,7 @@ const RegisterForm = () => {
               placeholder="Enter your phone number..."
               value={phone}
               onChange={phoneChangeHandler}
+              required
             />
           </div>
           <div className="d-grid mb-4">
@@ -135,6 +162,15 @@ const RegisterForm = () => {
               </a>
             </p>
           </div>
+          {alertName && <p className="d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>
+              {alertName}</p>}
+          {alertPassword &&  <p className="d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>
+              {alertPassword}</p>}
+          {alertConfirm && <p className="d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>
+              {alertConfirm}</p>}
+          {alertPhone && <p className="d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>
+              {alertPhone}</p>
+          }
         </form>
       </Container>
     </div>
