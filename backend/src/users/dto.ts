@@ -5,9 +5,11 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { UserExists } from './user-exists-rule';
 
 export class CreateUserDto {
   @IsString()
+  @UserExists()
   email: string;
 
   @IsString()
