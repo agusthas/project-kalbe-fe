@@ -1,28 +1,35 @@
-import { signIn } from "next-auth/react";
-import { useState } from "react";
-import { Container } from "react-bootstrap";
+import { signIn } from "next-auth/react"
+import { useState } from "react"
+import { Container } from "react-bootstrap"
 
 const LoginForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  const [alert, setAlert] = useState('')
 
   const emailChangeHandler = (event) => {
-    setEmail(event.target.value);
-  };
+    setEmail(event.target.value)
+  }
 
   const passwordChangeHandler = (event) => {
-    setPassword(event.target.value);
-  };
+    setPassword(event.target.value)
+  }
 
   const submitHandler = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
-    await signIn("credentials", {
-      email: email,
-      password: password,
-      callbackUrl: "/",
-    });
-  };
+    if (password.length < 8) {
+      setAlert('Password must be at least 8 characters')
+    } else{
+      await signIn("credentials", {
+        email: email,
+        password: password,
+        callbackUrl: "/",
+      })
+    }
+
+  }
 
   return (
     <div style={{minHeight: '85vh'}}>
@@ -39,6 +46,7 @@ const LoginForm = () => {
               placeholder="Enter your email..."
               value={email}
               onChange={emailChangeHandler}
+              required
             />
           </div>
           <div className="mb-4">
@@ -51,6 +59,7 @@ const LoginForm = () => {
               placeholder="Enter your password..."
               value={password}
               onChange={passwordChangeHandler}
+              required
             />
           </div>
           <div className="mb-4">
@@ -81,10 +90,11 @@ const LoginForm = () => {
               </a>
             </p>
           </div>
+          {alert && <p className="d-flex flex-column text-center text-danger p-2" style={{borderRadius:'10px', backgroundColor: '#ffc7d0'}}> {alert} </p>}
         </form>
       </Container>
     </div>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm
