@@ -1,6 +1,8 @@
 import {
   ClassSerializerInterceptor,
+  HttpStatus,
   Module,
+  UnprocessableEntityException,
   ValidationPipe,
 } from '@nestjs/common';
 import { AppController } from './app.controller';
@@ -46,7 +48,20 @@ import { LoggerModule } from 'nestjs-pino';
     PrismaService,
     {
       provide: APP_PIPE,
-      useClass: ValidationPipe,
+      useValue: new ValidationPipe({
+        errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+        exceptionFactory: (errors) => {
+          const errorMessages = {};
+          errors.forEach((erorr) => {
+            errorMessages[erorr.property] = Object.values(erorr.constraints);
+          });
+          return new UnprocessableEntityException({
+            statusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+            message: 'Validation failed',
+            errors: errorMessages,
+          });
+        },
+      }),
     },
     {
       provide: APP_INTERCEPTOR,

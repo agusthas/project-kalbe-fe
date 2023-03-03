@@ -1,4 +1,5 @@
 import {
+  IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
@@ -8,10 +9,12 @@ import {
 
 export class CreatePostDto {
   @IsString()
+  @IsNotEmpty()
   @MaxLength(50)
   title: string;
 
   @IsString()
+  @IsNotEmpty()
   description: string;
 
   @IsOptional()
