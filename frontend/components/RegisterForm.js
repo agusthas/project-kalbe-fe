@@ -62,11 +62,11 @@ const RegisterForm = () => {
 
   return (
     <div style={{minHeight: '85vh'}}>
-      <h1 className="text-center my-5">Create Your Account</h1>
+      <h1 className="text-center my-5" style={{fontWeight: 'bold'}}>Create Your Account</h1>
       <Container className="rounded mb-5 py-5 w-50 d-flex justify-content-center shadow">
         <form onSubmit={submitHandler} className="w-100 px-5">
           <div className="mb-4">
-            <label className="mb-1">Name</label>
+            <label className="mb-1" style={{fontWeight: 'bold'}}>Name</label>
             <input
               id="name"
               type="name"
@@ -77,7 +77,7 @@ const RegisterForm = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="mb-1">Email Address</label>
+            <label className="mb-1" style={{fontWeight: 'bold'}}>Email Address</label>
             <input
               id="email"
               type="email"
@@ -89,7 +89,7 @@ const RegisterForm = () => {
           </div>
           <div className="d-flex justify-content-between">
             <div className="mb-4" style={{ width: "310px" }}>
-              <label className="mb-1">Password</label>
+              <label className="mb-1" style={{fontWeight: 'bold'}}>Password</label>
               <input
                 id="password"
                 type="password"
@@ -100,7 +100,7 @@ const RegisterForm = () => {
               />
             </div>
             <div className="mb-4" style={{ width: "310px" }}>
-              <label className="mb-1">Confirm Password</label>
+              <label className="mb-1" style={{fontWeight: 'bold'}}>Confirm Password</label>
               <input
                 id="confirm"
                 type="password"
@@ -112,7 +112,7 @@ const RegisterForm = () => {
             </div>
           </div>
           <div className="mb-4">
-            <label className="mb-1">Phone Number</label>
+            <label className="mb-1" style={{fontWeight: 'bold'}}>Phone Number</label>
             <input
               id="phone"
               type="text"
@@ -123,14 +123,14 @@ const RegisterForm = () => {
             />
           </div>
           <div className="d-grid mb-4">
-            <button type="submit" className="btn btn-primary py-2">
+            <button type="submit" className="btn btn-primary py-2" style={{fontWeight: 'bold'}}>
               Create Account
             </button>
           </div>
           <div className="text-center">
             <p>
               Already have an account?{" "}
-              <a className="forgot-password text-right" href="/login">
+              <a className="forgot-password text-right" href="/login" style={{fontWeight: 'bold'}}>
                 Sign In Here!
               </a>
             </p>
