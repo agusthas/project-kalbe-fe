@@ -1,15 +1,29 @@
 import Layout from "@/components/Layout";
 import { getCategories } from "@/modules/categories/api";
-import { getPost } from "@/modules/posts/api";
+import { getPost, updatePost } from "@/modules/posts/api";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { Button, Container, Form, Image } from "react-bootstrap";
 
 const UpdatePost = ({post, categories}) => {
+    const router = useRouter()
+    const session = useSession()
+
     const [image, setImage] = useState(post.image)
     const [title, setTitle] = useState(post.title)
     const [initialCategory, setCategory] = useState(post.category.id)
     const [description, setDescription] = useState(post.description)
+
+    const [titleAlert, setTitleAlert] = useState('')
+    const [categoryAlert, setCategoryAlert] = useState('')
+    const [descriptionAlert, setDescriptionAlert] = useState('')
+
+    if(post.author.id != session.data.user.id){
+        router.push('/')
+        return
+    }
 
     const imageChangeHandler = (e) => {
         setImage(e.target.value)
@@ -29,23 +43,58 @@ const UpdatePost = ({post, categories}) => {
 
     const updateHandler = (e) => {
         e.preventDefault()
-        if(image === '' || title === '' || category === '' || description === '') {
-            alert('Please fill all the fields')
+        let error = 0
+        if(title.length <= 0){
+            setTitleAlert('Blog title must be filled!')
+            error = 1
+        }else if(title.length > 50){
+            setTitleAlert('Blog title must not have more than 50 characters!')
+            error = 1
+        }else{
+            setTitleAlert('')
         }
-        setImage('')
-        setTitle('')
-        setCategory(0)
-        setDescription('')
+        if(category == 0){
+            setCategoryAlert('Blog category must be selected!')
+            error = 1
+        }else{
+            setCategoryAlert('')
+        }
+        if(description.length <= 0){
+            setDescriptionAlert('Blog content must be filled!')
+            error = 1
+        }else{
+            setDescriptionAlert('')
+        }
+        if(error > 0){
+            return
+        }
+        const updatedPost = {
+            image: image,
+            title: title,
+            categoryId: initialCategory,
+            description: description
+        }
+        updatePost(post.id, updatedPost, session.data.accessToken).then((response) => {
+            console.log(response)
+            router.push('/')
+        }).catch((err) => {
+            console.log(err.response.data)
+        }).finally(() => {
+            setImage(image)
+            setTitle(title)
+            setCategory(category)
+            setDescription(description)
+        })
     }
 
     return (
-        <Layout>
+        <Layout title="Update Blog">
             <Container className="px-0 py-5">
                 <h1 className="text-center fw-bold">{post.title}</h1>
                 <div className="d-flex justify-content-center pt-4 pb-3">
                     <Image src={post.image} alt={post.title} className="w-25" />
                 </div>
-                <Form className="w-50 mx-auto py-3" action="/" method="POST">
+                <Form className="w-50 mx-auto py-3" onSubmit={updateHandler}>
                     <Form.Group className="py-3 d-flex justify-content-between align-items-center">
                         <Form.Label htmlFor="image" className="w-25">Image URL</Form.Label>
                         <Form.Control onChange={imageChangeHandler} id="image" name="image" type="text" className="w-75" value={image} />
@@ -54,28 +103,29 @@ const UpdatePost = ({post, categories}) => {
                         <Form.Label htmlFor="title" className="w-25">Title</Form.Label>
                         <Form.Control onChange={titleChangeHandler} required id="title" name="title" type="text" className="w-75" value={title} />
                     </Form.Group>
+                    {titleAlert && <p id="title" className="d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>{titleAlert}</p>}
                     <Form.Group className="py-3 d-flex justify-content-between align-items-center">
                         <Form.Label htmlFor="category" className="w-25">Category</Form.Label>
                         <Form.Select onChange={categoryChangeHandler} id="category" name="category" required className="w-75">
                             {categories.map(category => (
-                                <option key={category.id} value={category.id} selected={category.id === initialCategory}>
+                                <option key={category.id} value={category.id} defaultValue={category.id === initialCategory}>
                                     {category.name}
                                 </option>
                             ))}
                         </Form.Select>
                     </Form.Group>
+                    {categoryAlert && <p id="category" className="d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>{categoryAlert}</p>}
                     <Form.Group className="py-3">
                         <Form.Label htmlFor="description" className="w-25">Content</Form.Label>
                         <Form.Control onChange={descriptionChangeHandler} id="description" name="description" required as="textarea" rows={10} className="my-3" value={description} />
                     </Form.Group>
+                    {descriptionAlert && <p id="description" className="d-flex flex-column text-center text-danger p-2 mb-4" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>{descriptionAlert}</p>}
                     <div className="d-flex justify-content-end">
                         <div className="d-flex justify-content-between w-25">
                             <Link href={`/`}>
                                 <Button className="btn text-white btn-danger fw-bold">Cancel</Button>
                             </Link>
-                            <Link href={`/`}>
-                                <Button onClick={updateHandler} className="btn btn-primary fw-bold" type="submit">Update</Button>
-                            </Link>
+                            <Button className="btn btn-primary fw-bold" type="submit">Update</Button>
                         </div>
                     </div>
                 </Form>
@@ -89,6 +139,9 @@ export default UpdatePost;
 
 export async function getServerSideProps({params}){
     const post = await getPost(params.postId).then(res => res.data)
+    if(!post) return{
+        notFound: true
+    }
     const categories = await getCategories().then(res => res.data)
     return {
         props: {

@@ -15,7 +15,7 @@ export default function LatestPostCard({post}){
             <div className="py-3 h-100 d-flex flex-column align-items-start">
                 <h5 className="card-title fw-bold flex-grow-1 mb-1">{post.title}</h5>
                 <div className="d-flex justify-content-between w-100">
-                    <p className="card-text mb-2">by <span className="fw-semibold">{post.author.name}</span></p>
+                    <p className="card-text mb-2">by <span className="fw-semibold"><Link className="text-decoration-none text-dark" href={`/profile/view/${post.author.id}`}>{post.author.name}</Link></span></p>
                     <p className="card-text mb-2">{dateString}</p>
                 </div>
                 <p className="card-text line-clamp-4 text-muted mb-2">{parser(post.description)}</p>

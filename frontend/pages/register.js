@@ -3,7 +3,7 @@ import Layout from "@/components/Layout";
 
 const Register = () => {
   return (
-    <Layout>
+    <Layout title="Register">
       <RegisterForm />
     </Layout>
   );

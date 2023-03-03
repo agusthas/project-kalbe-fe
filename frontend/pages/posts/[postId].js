@@ -24,7 +24,7 @@ export default function Post({post}){
         return <LoadingScreen/>
     }
     return(
-        <Layout showNavbar={false}>
+        <Layout showNavbar={false} title={post.title}>
             <Container className="py-5">
             <AnchorLink href={"/"} className="d-flex gap-2 align-items-center position-absolute top-0 left-0 mt-4"><ArrowLeft/><span>Back to Home</span></AnchorLink>
                 <div className="row justify-content-center mb-4">

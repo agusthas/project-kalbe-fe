@@ -15,7 +15,7 @@ export default function PostSection({posts, categories}){
         <Container className="py-5 min-vh-100">
             <div className="row mb-3">
                 <div className="col text-center">
-                    <h2 className="fw-bold">Our Posts</h2>
+                    <h2 className="fw-bold">All Blogs</h2>
                 </div>
             </div>
             <div className="row mb-4 pt-3 position-sticky top-0" style={{zIndex: '999', background: 'white'}}>
