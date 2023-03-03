@@ -41,6 +41,8 @@ const RegisterForm = () => {
     if(password != confirm) {
       setAlertConfrim('Confirm Password must be same with Password')
       return
+    } else if(password == confirm){
+      setAlertConfrim('')
     }
 
     const newUser = {
@@ -59,6 +61,8 @@ const RegisterForm = () => {
         console.log(error)
         if(name.length > 50){
           setAlertName('Name must be not exceed 50 characters')
+        } else if (name.length < 50) {
+          setAlertName('')
         }
 
         if (password.length < 8) {
@@ -69,7 +73,7 @@ const RegisterForm = () => {
 
         if(phone.length < 10 || phone.length > 15){
           setAlertPhone('Phone length must be between 10 and 15')
-        } else if (phone.length > 10 || phone.length < 15){
+        } else if (phone.length > 10 && phone.length < 15){
           setAlertPhone('')
         } 
       })
