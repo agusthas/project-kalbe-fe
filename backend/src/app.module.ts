@@ -27,6 +27,15 @@ import { LoggerModule } from 'nestjs-pino';
     }),
     LoggerModule.forRoot({
       pinoHttp: {
+        serializers:
+          process.env.NODE_ENV === 'production'
+            ? undefined
+            : {
+                req(req) {
+                  req.body = req.raw.body;
+                  return req;
+                },
+              },
         level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
         transport:
           process.env.NODE_ENV !== 'production'
