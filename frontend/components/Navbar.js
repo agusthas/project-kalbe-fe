@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { Button, Container, Image } from "react-bootstrap";
 import { signOut } from "next-auth/react";
 import LoadingScreen from "./LoadingScreen";
-import ImageWithFallback from "./ImageWithFallback";
+
 const Navbar = () => {
     const router = useRouter()
     const activeLink = (url, pathname) => pathname === url ? "text-primary" : "text-dark"
@@ -16,10 +16,10 @@ const Navbar = () => {
     else return (
         <Container fluid className="shadow" style={{zIndex: '999'}}>
             <nav class="navbar navbar-expand-lg bg-white container py-3">
-                <a class="navbar-brand d-flex align-items-center gap-2" href="/">
-                    <Image src="/favicon.ico"/>
+                <Link class="navbar-brand d-flex align-items-center gap-2" href="/">
+                    <Image src="/favicon.ico" alt="MyBlog"/>
                     <h3 className="fw-bold mb-0">MyBlog</h3>
-                </a>
+                </Link>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
                 </button>
@@ -31,14 +31,15 @@ const Navbar = () => {
                     {
                     status === 'authenticated' ?
                     <li class="nav-item">
-                        <Link class={`nav-link ${activeLink('/posts/create', router.pathname)}`} href="/posts/create">Create Post</Link>
+                        <Link class={`nav-link ${activeLink('/posts/create', router.pathname)}`} href="/posts/create">Create Blog</Link>
                     </li> : ""
                     }
                     {
                         status === 'authenticated' ?
 
                         <div className="d-flex align-items-start ms-lg-3 ms-lg-3 mt-3 mt-lg-0">
-                            <Image src={session.user.avatar} width={40} height={40} className="rounded-circle" style={{objectFit: 'cover'}}/>
+                            {session.user.avatar === null ? <Image src="/images/profile-picture-placeholder.jpg" alt="No profile picture" width={40} height={40} className="rounded-circle" style={{objectFit: 'cover'}}/>
+                                : <Image src={session.user.avatar} alt={session.user.name} width={40} height={40} className="rounded-circle" style={{objectFit: 'cover'}}/> }
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     {session.user.name}

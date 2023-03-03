@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap"
 import { useState } from "react"
 import { createComment } from "@/modules/comments/api"
 import { useRouter } from "next/router"
+import Image from "next/image"
 
 export default function CommentForm({user, token, postId}){
     const [comment, setComment] = useState("")
@@ -23,13 +24,10 @@ export default function CommentForm({user, token, postId}){
     return(
         <div className="card mb-3">
             <div className="card-body d-flex gap-3">
-                <ImageWithFallback
-                    src={user.avatar}
-                    fallbackSrc={"/images/no-image.png"}
-                    className="rounded-circle border border-secondary"
-                    width={64}
-                    height={64}
-                />
+                {user.avatar === null ?
+                    <Image src={"/images/profile-picture-placeholder.jpg"} alt={user.name} className="rounded-circle border border-secondary" width={64} height={64} /> :
+                    <Image src={user.avatar} alt={user.name} className="rounded-circle border border-secondary" width={64} height={64} />
+                }
                 <form className="d-flex flex-column align-items-end w-100" action="POST" onSubmit={submitHandler}>
                     <textarea 
                         className="form-control mb-3"

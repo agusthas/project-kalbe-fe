@@ -3,7 +3,7 @@ import parser from "html-react-parser"
 import { formatDate } from "@/lib/date"
 import Link from "next/link"
 
-export default function ProfilePostCard({post, authorized = false, showComments = false}){
+export default function ProfilePostCard({post, showActions = false, authorized = false, showComments = false}){
     return(
         <div class="card h-100 d-flex flex-column justify-content-between" style={{border: 'none'}}>
             <div style={{width: '100%', aspectRatio: '16 / 9', position: 'relative'}}>
@@ -19,17 +19,19 @@ export default function ProfilePostCard({post, authorized = false, showComments 
                     <div style={{width: '70%'}}>
                         <p className="badge py-2 px-3 rounded-pill bg-dark text-white mb-0">{post.category.name}</p>
                     </div>
-                    <div style={{width: '30%'}} className="d-flex justify-content-between">
-                        <Link href={`/posts/update/${post.id}`} className="text-decoration-none">
-                            <p className="mb-0 text-primary">Edit</p> 
-                        </Link>
-                        <Link href={`/`} className="text-decoration-none">
-                            <p className="mb-0 text-danger">Delete</p> 
-                        </Link>
-                    </div>
+                    {showActions &&
+                        <div style={{width: '30%'}} className="d-flex justify-content-between">
+                            <Link href={`/posts/update/${post.id}`} className="text-decoration-none">
+                                <p className="mb-0 text-primary">Edit</p> 
+                            </Link>
+                            <Link href={`/`} className="text-decoration-none">
+                                <p className="mb-0 text-danger">Delete</p> 
+                            </Link>
+                        </div>
+                    }
                 </div>
             </div>
-            <a href={`/posts/${post.id}`} class="link-primary text-center w-100 fw-semibold">Read this post</a>
+            <a href={`/posts/${post.id}`} class="link-primary text-center w-100 fw-semibold">Read this blog</a>
         </div>
     )
 }

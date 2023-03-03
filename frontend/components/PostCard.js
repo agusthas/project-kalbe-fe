@@ -15,13 +15,13 @@ export default function PostCard({post, authorized = false, showComments = false
             <div className="py-3 h-100 d-flex flex-column align-items-start">
                 <h5 className="card-title fw-bold flex-grow-1 mb-1">{post.title}</h5>
                 <div className="d-flex justify-content-between w-100">
-                    <p className="card-text mb-2">by <span className="fw-semibold">{post.author.name}</span></p>
+                    <p className="card-text mb-2">by <span className="fw-semibold"><Link className="text-decoration-none text-dark" href={`/profile/view/${post.author.id}`}>{post.author.name}</Link></span></p>
                     <p className="card-text mb-2">{dateString}</p>
                 </div>
                 <p className="card-text mb-2 line-clamp-2 text-muted">{parser(post.description)}</p>
                 <p className="badge py-2 px-3 rounded-pill bg-dark text-white mb-0">{post.category.name}</p>
             </div>
-            <Link href={`/posts/${post.id}`} className="link-primary text-center w-100 fw-semibold">Read this post</Link>
+            <Link href={`/posts/${post.id}`} className="link-primary text-center w-100 fw-semibold">Read this blog</Link>
         </div>
     )
 }

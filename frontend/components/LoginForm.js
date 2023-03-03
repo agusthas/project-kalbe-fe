@@ -1,4 +1,5 @@
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Container } from "react-bootstrap";
@@ -72,9 +73,9 @@ const LoginForm = () => {
           <div className="text-center">
             <p>
               Don't have an account yet?{" "}
-              <a className="forgot-password text-right" href="/register" style={{fontWeight: 'bold'}}>
+              <Link className="forgot-password text-right" href="/register" style={{fontWeight: 'bold'}}>
                 Register Here!
-              </a>
+              </Link>
             </p>
           </div>
           {alert && <p className="d-flex flex-column text-center text-danger p-2" style={{borderRadius:'10px', backgroundColor: '#ffc7d0'}}> {alert} </p>}

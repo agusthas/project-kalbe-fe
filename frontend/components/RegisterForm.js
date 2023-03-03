@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { Container } from "react-bootstrap";
 import { register } from "@/modules/auth/api";
+import Link from "next/link";
 
 const RegisterForm = () => {
   const router = useRouter()
@@ -162,9 +163,9 @@ const RegisterForm = () => {
           <div className="text-center">
             <p>
               Already have an account?{" "}
-              <a className="forgot-password text-right" href="/login" style={{fontWeight: 'bold'}}>
+              <Link className="forgot-password text-right" href="/login" style={{fontWeight: 'bold'}}>
                 Sign In Here!
-              </a>
+              </Link>
             </p>
           </div>
           {alertName && <p className="d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>

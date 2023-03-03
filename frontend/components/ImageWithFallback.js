@@ -8,6 +8,7 @@ export default function ImageWithFallback({src, fallbackSrc, ...rest}){
         <Image
             {...rest}
             src={imgSrc}
+            alt=""
             onError={() => {
                 setImgSrc(fallbackSrc)
             }}
