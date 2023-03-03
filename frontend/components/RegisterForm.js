@@ -52,6 +52,24 @@ const RegisterForm = () => {
         phone: phone
     }
 
+    if(name.length > 50){
+      setAlertName('Name must be not exceed 50 characters')
+    } else if (name.length < 50) {
+      setAlertName('')
+    }
+
+    if (password.length < 8) {
+      setAlertPassword('Password must be at least 8 characters')
+    } else if (password.length > 8){
+      setAlertPassword('')
+    }
+
+    if(phone.length < 10 || phone.length > 15){
+      setAlertPhone('Phone length must be between 10 and 15')
+    } else if (phone.length > 10 || phone.length < 15){
+      setAlertPhone('')
+    }
+    
     register(newUser)
       .then((response) => {
         console.log(response)
@@ -59,23 +77,6 @@ const RegisterForm = () => {
       }) 
       .catch((error) => {
         console.log(error)
-        if(name.length > 50){
-          setAlertName('Name must be not exceed 50 characters')
-        } else if (name.length < 50) {
-          setAlertName('')
-        }
-    
-        if (password.length < 8) {
-          setAlertPassword('Password must be at least 8 characters')
-        } else if (password.length > 8){
-          setAlertPassword('')
-        }
-
-        if(phone.length < 10 || phone.length > 15){
-          setAlertPhone('Phone length must be between 10 and 15')
-        } else if (phone.length > 10 || phone.length < 15){
-          setAlertPhone('')
-        }
       })
       .finally(() => {
         setName('')
