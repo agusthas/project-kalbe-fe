@@ -15,16 +15,18 @@ export class UserExistsRule implements ValidatorConstraintInterface {
 
   async validate(value: string) {
     try {
-      await this.prisma.user.findUniqueOrThrow({
+      const user = await this.prisma.user.findUnique({
         where: {
           email: value,
         },
       });
+
+      if (!user) return true;
     } catch (e) {
       return false;
     }
 
-    return true;
+    return false;
   }
 
   defaultMessage(validationArguments?: ValidationArguments): string {
