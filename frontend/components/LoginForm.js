@@ -1,11 +1,13 @@
-import { signIn } from "next-auth/react"
-import { useState } from "react"
-import { Container } from "react-bootstrap"
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { Container } from "react-bootstrap";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  
   const [alert, setAlert] = useState('')
 
   const emailChangeHandler = (event) => {
@@ -18,17 +20,17 @@ const LoginForm = () => {
 
   const submitHandler = async (event) => {
     event.preventDefault()
-
+    let callbackUrl = router.query.callbackUrl || "/";
+    
     if (password.length < 8) {
       setAlert('Password must be at least 8 characters')
     } else{
       await signIn("credentials", {
         email: email,
         password: password,
-        callbackUrl: "/",
+        callbackUrl,
       })
     }
-
   }
 
   return (

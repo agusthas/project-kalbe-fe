@@ -42,6 +42,7 @@ export default NextAuth({
       if (user) {
         token.accessToken = user.accessToken;
         token.id = user.id;
+        token.avatar = user.image;
       }
 
       return token;
@@ -49,6 +50,7 @@ export default NextAuth({
     async session({ session, token }) {
       session.accessToken = token.accessToken;
       session.user.id = token.id;
+      session.user.avatar = token.avatar;
 
       return session;
     },

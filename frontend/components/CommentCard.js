@@ -17,9 +17,9 @@ export default function CommentCard({comment}){
                     width={64}
                     height={64}
                 />
-                <div className="d-flex flex-column">
-                    <div className="d-flex justify-content-between align-items-center">
-                        <h5 className="card-title fw-semibold">{comment.author.name}</h5>
+                <div className="d-flex flex-column w-100">
+                    <div className="d-flex justify-content-between align-items-center mb-2">
+                        <h5 className="card-title fw-semibold mb-0">{comment.author.name}</h5>
                         <p className="card-text">{dateString}</p>
                     </div>
                     <p className="card-text text-muted" style={{textAlign: 'justify'}}>

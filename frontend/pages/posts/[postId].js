@@ -10,12 +10,19 @@ import AnchorLink from "next/link";
 import parser from "html-react-parser"
 import { ArrowLeft, ChatLeft } from "react-bootstrap-icons";
 import CommentCard from "@/components/CommentCard";
+import CommentForm from "@/components/CommentForm";
+import { useSession } from "next-auth/react";
+import LoadingScreen from "@/components/LoadingScreen";
 
 export default function Post({post}){
     const [dateString, setDateString] = useState("")
     const options = { year: 'numeric', month: 'long', day: 'numeric' }
     const {asPath} = useRouter()
+    const { status, data: session } = useSession()
     useEffect(() => setDateString(formatDate(new Date(post.createdAt),options)),[])
+    if(status === 'loading'){
+        return <LoadingScreen/>
+    }
     return(
         <Layout showNavbar={false}>
             <Container className="py-5">
@@ -74,6 +81,7 @@ export default function Post({post}){
                         <hr/>
                     </div>
                     <div className="col-md-8">
+                        {status === 'authenticated' ? <CommentForm user={session.user} token={session.accessToken} postId={post.id}/> : ""}
                         {post.comments.map(comment => (
                             <CommentCard comment={comment} key={comment.id}/>
                         ))}

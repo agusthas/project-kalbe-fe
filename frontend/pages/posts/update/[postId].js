@@ -29,6 +29,9 @@ const UpdatePost = ({post, categories}) => {
 
     const updateHandler = (e) => {
         e.preventDefault()
+        if(image === '' || title === '' || category === '' || description === '') {
+            alert('Please fill all the fields')
+        }
         setImage('')
         setTitle('')
         setCategory(0)
