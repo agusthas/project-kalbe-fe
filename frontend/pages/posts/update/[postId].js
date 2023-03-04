@@ -108,7 +108,7 @@ const UpdatePost = ({post, categories}) => {
                         <Form.Label htmlFor="category" className="w-25">Category</Form.Label>
                         <Form.Select onChange={categoryChangeHandler} id="category" name="category" required className="w-75">
                             {categories.map(category => (
-                                <option key={category.id} value={category.id} defaultValue={category.id === initialCategory}>
+                                <option key={category.id} value={category.id} selected={category.id === initialCategory}>
                                     {category.name}
                                 </option>
                             ))}
