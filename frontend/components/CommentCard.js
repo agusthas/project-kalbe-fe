@@ -2,6 +2,7 @@ import ImageWithFallback from "./ImageWithFallback";
 import { formatDate } from "@/lib/date";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function CommentCard({comment}){
     const [dateString, setDateString] = useState("")
@@ -17,7 +18,9 @@ export default function CommentCard({comment}){
                 }
                 <div className="d-flex flex-column w-100">
                     <div className="d-flex justify-content-between align-items-center mb-2">
-                        <h5 className="card-title fw-semibold mb-0">{comment.author.name}</h5>
+                        <Link className="text-dark text-decoration-none" href={`/profile/view/${comment.author.id}`}>
+                            <h5 className="card-title fw-semibold mb-0">{comment.author.name}</h5>
+                        </Link>
                         <p className="card-text">{dateString}</p>
                     </div>
                     <p className="card-text text-muted" style={{textAlign: 'justify'}}>
