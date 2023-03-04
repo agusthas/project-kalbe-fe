@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
   IsNotEmpty,
   IsNumber,
@@ -18,9 +19,9 @@ export class CreatePostDto {
   description: string;
 
   @IsOptional()
-  @IsUrl()
   image?: string;
 
+  @Type(() => Number)
   @IsNumber()
   categoryId: number;
 }
@@ -36,10 +37,10 @@ export class UpdatePostDto {
   description?: string;
 
   @IsOptional()
-  @IsUrl()
   image?: string;
 
   @IsOptional()
+  @Type(() => Number)
   @IsNumber()
   categoryId?: number;
 }

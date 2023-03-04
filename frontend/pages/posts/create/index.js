@@ -63,10 +63,10 @@ const CreatePost = ({categories}) => {
             return
         }
         const newPost = {
-            image: image,
             title: title,
             categoryId: category,
-            description: description
+            description: description,
+            image: image.length > 0 ? image : null
         }
         createPost(newPost, session.data.accessToken).then((response) => {
             console.log(response)

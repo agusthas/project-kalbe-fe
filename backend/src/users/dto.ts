@@ -31,7 +31,6 @@ export class CreateUserDto {
   bio?: string;
 
   @IsOptional()
-  @IsUrl()
   avatar?: string;
 }
 
@@ -62,6 +61,5 @@ export class UpdateUserDto {
   bio?: string;
 
   @IsOptional()
-  @IsUrl()
   avatar?: string;
 }
