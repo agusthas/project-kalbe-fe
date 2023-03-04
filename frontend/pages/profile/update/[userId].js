@@ -104,7 +104,8 @@ const UpdateProfile = ({user}) => {
         }else{
             setBioAlert('')
         }
-        if(error = 1){
+        if(error == 1){
+            console.log(error);
             return
         }
         const updatedUser = {
