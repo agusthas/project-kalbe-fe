@@ -16,10 +16,10 @@ const Profile = ({user}) => {
         <Layout title={title}>
             <Container className="px-0 py-5">
                 <div className="mx-auto w-75 py-3">
-                    {notSelf ? <ProfileCard user={user} showUpdateOption={false}/> : <ProfileCard user={user}/>}
+                    {notSelf ? <ProfileCard user={user}/> : <ProfileCard user={user} showUpdateOption={true}/>}
                 </div>
                 <hr></hr>
-                {notSelf ? <ProfilePostSection user={user} showActions={false}/> : <ProfilePostSection user={user}/>}
+                {notSelf ? <ProfilePostSection user={user}/> : <ProfilePostSection user={user} showActions={true}/>}
             </Container>
         </Layout>
     )

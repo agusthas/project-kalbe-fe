@@ -5,7 +5,8 @@ import { getPost } from "@/modules/posts/api";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-import { Link } from "react-bootstrap-icons";
+import Link from "next/link";
+import { Link as LinkIcon } from "react-bootstrap-icons";
 import AnchorLink from "next/link";
 import parser from "html-react-parser"
 import { ArrowLeft, ChatLeft } from "react-bootstrap-icons";
@@ -46,18 +47,20 @@ export default function Post({post}){
                     <div className="col-md-8">
                         <div className="d-flex md justify-content-between align-items-center mt-3">
                             <p className="badge py-2 px-3 rounded-pill bg-dark text-white mb-0 fs-6">{post.category.name}</p>
-                            <div className="d-flex align-items-center gap-2">
-                                <ImageWithFallback
-                                    src={post.author.avatar}
-                                    fallbackSrc={"/images/no-image.png"}
-                                    width={40}
-                                    height={40}
-                                    className="rounded-circle border border-secondary"
-                                    style={{objectFit: 'cover'}}
-                                />
-                                <p className="mb-0">{post.author.name}</p>
-                            </div>
-                            <button className="btn btn-primary rounded-pill d-flex align-items-center gap-2" onClick={async() => await navigator.share({url: `http://localhost:3000${asPath}`})}><Link size={24}/><span>Share</span></button>
+                            <Link className="text-dark text-decoration-none" href={`/profile/view/${post.author.id}`}>
+                                <div className="d-flex align-items-center gap-2">
+                                    <ImageWithFallback
+                                        src={post.author.avatar}
+                                        fallbackSrc={"/images/no-image.png"}
+                                        width={40}
+                                        height={40}
+                                        className="rounded-circle border border-secondary"
+                                        style={{objectFit: 'cover'}}
+                                    />
+                                    <p className="mb-0">{post.author.name}</p>
+                                </div>
+                            </Link>
+                            <button className="btn btn-primary rounded-pill d-flex align-items-center gap-2" onClick={async() => await navigator.share({url: `http://localhost:3000${asPath}`})}><LinkIcon size={24}/><span>Share</span></button>
                         </div>
                     </div>
                 </div>
