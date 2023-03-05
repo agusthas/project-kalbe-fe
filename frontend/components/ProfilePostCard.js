@@ -1,13 +1,20 @@
-import Image from "next/image"
 import parser from "html-react-parser"
 import { formatDate } from "@/lib/date"
 import Link from "next/link"
+import ImageWithFallback from "./ImageWithFallback"
 
 export default function ProfilePostCard({post, showActions = false, authorized = false, showComments = false}){
     return(
         <div class="card h-100 d-flex flex-column justify-content-between" style={{border: 'none'}}>
             <div style={{width: '100%', aspectRatio: '16 / 9', position: 'relative'}}>
-                <Image src={post.image} fill style={{aspectRatio: '16 / 9', objectFit: 'cover'}} class="position-relative rounded shadow-sm" alt="Post Image"/>
+                <ImageWithFallback
+                    src={post.image}
+                    fallbackSrc={"/images/no-image.png"}
+                    fill
+                    style={{aspectRatio: '16 / 9', objectFit: 'cover'}} 
+                    class="position-relative rounded shadow-sm" 
+                    alt="Post Image"
+                />
             </div>
             <div class="py-3 h-100 d-flex flex-column align-items-start">
                 <h5 class="card-title fw-bold flex-grow-1 mb-1">{post.title}</h5>
