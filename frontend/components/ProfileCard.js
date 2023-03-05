@@ -1,15 +1,21 @@
 import Link from "next/link";
 import { Image } from "react-bootstrap";
+import ImageWithFallback from "./ImageWithFallback";
 
 const ProfileCard = ({user, showUpdateOption = false}) => {
     return(
         <div className="d-flex align-items-center">
             <div>
-                {user.avatar === null 
-                ? <Image src={`/images/profile-picture-placeholder.jpg`} alt={user.name} width={200} height={200} className="rounded-circle border border-dark border-1" />
-                : <Image src={user.avatar} alt={user.name} width={200} height={200} className="rounded-circle border border-dark border-1" />}
+                <ImageWithFallback
+                    src={user.avatar}
+                    fallbackSrc={"/images/profile-picture-placeholder.jpg"}
+                    alt={user.name}
+                    width={200}
+                    height={200}
+                    className="rounded-circle border shadow-sm"
+                />
             </div>
-            <div className="mx-4">
+            <div className="mx-4 w-100">
                 <h3 className="fw-bold">{user.name}</h3>
                 <h6>{user.email}</h6>
                 <p>{user.bio}</p>

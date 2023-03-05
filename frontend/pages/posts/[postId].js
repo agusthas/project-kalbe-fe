@@ -51,7 +51,7 @@ export default function Post({post}){
                                 <div className="d-flex align-items-center gap-2">
                                     <ImageWithFallback
                                         src={post.author.avatar}
-                                        fallbackSrc={"/images/no-image.png"}
+                                        fallbackSrc={"/images/profile-picture-placeholder.jpg"}
                                         width={40}
                                         height={40}
                                         className="rounded-circle border border-secondary"

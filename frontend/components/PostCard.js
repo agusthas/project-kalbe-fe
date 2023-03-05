@@ -1,8 +1,8 @@
-import Image from "next/image"
 import Link from "next/link"
 import parser from "html-react-parser"
 import { formatDate } from "@/lib/date"
 import { useEffect, useState } from "react"
+import ImageWithFallback from "./ImageWithFallback"
 
 export default function PostCard({post, authorized = false, showComments = false}){
     const [dateString, setDateString] = useState("")
@@ -10,7 +10,14 @@ export default function PostCard({post, authorized = false, showComments = false
     return(
         <div className="card h-100 d-flex flex-column justify-content-between" style={{border: 'none'}}>
             <div style={{width: '100%', aspectRatio: '16 / 9', position: 'relative'}}>
-                <Image src={post.image} fill style={{aspectRatio: '16 / 9', objectFit: 'cover'}} className="position-relative rounded shadow-sm" alt="Post Image"/>
+                <ImageWithFallback 
+                    src={post.image}
+                    fallbackSrc={"/images/no-image.png"}
+                    fill 
+                    style={{aspectRatio: '16 / 9', objectFit: 'cover'}}
+                    className="position-relative rounded shadow-sm"
+                    alt="Post Image"
+                />
             </div>
             <div className="py-3 h-100 d-flex flex-column align-items-start">
                 <h5 className="card-title fw-bold flex-grow-1 mb-1">{post.title}</h5>
