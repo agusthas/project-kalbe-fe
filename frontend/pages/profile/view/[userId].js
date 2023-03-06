@@ -1,4 +1,5 @@
 import Layout from "@/components/Layout";
+import LoadingScreen from "@/components/LoadingScreen";
 import ProfileCard from "@/components/ProfileCard";
 import ProfilePostSection from "@/components/ProfilePostSection";
 import { getUser } from "@/modules/users/api";
@@ -7,10 +8,13 @@ import { Container } from "react-bootstrap";
 
 const Profile = ({user}) => {
     const title = `${user.name}'s Profile`
-    const session = useSession() 
+    const {status, data:session} = useSession() 
     let notSelf = false
-    if(user.id != session.data.user.id){
+    if(user.id != session.user.id){
         notSelf = true
+    }
+    if(status === 'loading'){
+        return <LoadingScreen />
     }
     return (
         <Layout title={title}>

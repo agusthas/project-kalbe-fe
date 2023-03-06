@@ -1,4 +1,5 @@
 import Layout from "@/components/Layout";
+import LoadingScreen from "@/components/LoadingScreen";
 import ProfileCard from "@/components/ProfileCard";
 import { getUser, updateMe } from "@/modules/users/api";
 import { useSession } from "next-auth/react";
@@ -9,7 +10,7 @@ import { Button, Container, Form, Image } from "react-bootstrap";
 
 const UpdateProfile = ({user}) => {
     const router = useRouter()
-    const session = useSession()
+    const {status, data:session} = useSession()
 
     const [avatar, setAvatar] = useState(user.avatar)
     const [name, setName] = useState(user.name)
@@ -26,7 +27,11 @@ const UpdateProfile = ({user}) => {
     const [phoneAlert, setPhoneAlert] = useState('')
     const [bioAlert, setBioAlert] = useState('')
 
-    if(user.id != session.data.user.id) {
+    if(status === 'loading'){
+        return <LoadingScreen />
+    }
+
+    if(user.id != session.user.id) {
         router.push('/')
         return
     }
