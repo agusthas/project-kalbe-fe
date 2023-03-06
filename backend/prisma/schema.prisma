@@ -34,8 +34,8 @@ model Post {
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime  @updatedAt @map("updated_at")
   authorId    Int
-  author      User      @relation(fields: [authorId], references: [id])
-  category    Category? @relation(fields: [categoryId], references: [id])
+  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  category    Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   categoryId  Int?
   comments    Comment[]
 
@@ -58,9 +58,9 @@ model Comment {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   authorId  Int
-  author    User     @relation(fields: [authorId], references: [id])
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   postId    Int
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@map("comments")
 }
