@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Image } from "react-bootstrap";
+import { Envelope } from "react-bootstrap-icons";
 import ImageWithFallback from "./ImageWithFallback";
 
 const ProfileCard = ({user, showUpdateOption = false}) => {
@@ -17,7 +17,7 @@ const ProfileCard = ({user, showUpdateOption = false}) => {
             </div>
             <div className="mx-4 w-100">
                 <h3 className="fw-bold">{user.name}</h3>
-                <h6>{user.email}</h6>
+                <p><Envelope size={25} /> {user.email}</p>
                 <p>{user.bio}</p>
                 <p className="fw-bold mb-0">{user.posts.length} Posts <span className="fw-light">|</span> {user.comments.length} Comments</p>
                 {showUpdateOption ? 

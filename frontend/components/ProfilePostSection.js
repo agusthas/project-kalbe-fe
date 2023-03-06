@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { Button, Container } from "react-bootstrap"
-import ProfilePostCard from "./ProfilePostCard"
+import PostCard from "./PostCard"
 
 export default function ProfilePostSection({user, showActions}){
     if(user.posts.length <= 0) return(
@@ -19,7 +19,7 @@ export default function ProfilePostSection({user, showActions}){
             <div className="row g-3">
                 {user.posts.map(post => (
                     <div className="col-lg-3 col-md-4 mb-3" key={post.id}>
-                        <ProfilePostCard key={post.id} post={post} showActions={showActions}/>
+                        <PostCard profile={true} key={post.id} post={post} showActions={showActions}/>
                     </div>
                 ))}
             </div>

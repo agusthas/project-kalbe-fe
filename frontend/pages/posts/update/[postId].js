@@ -1,4 +1,6 @@
+import ImageWithFallback from "@/components/ImageWithFallback";
 import Layout from "@/components/Layout";
+import LoadingScreen from "@/components/LoadingScreen";
 import { getCategories } from "@/modules/categories/api";
 import { getPost, updatePost } from "@/modules/posts/api";
 import { useSession } from "next-auth/react";
@@ -9,7 +11,7 @@ import { Button, Container, Form, Image } from "react-bootstrap";
 
 const UpdatePost = ({post, categories}) => {
     const router = useRouter()
-    const session = useSession()
+    const {status, data:session} = useSession()
 
     const [image, setImage] = useState(post.image)
     const [title, setTitle] = useState(post.title)
@@ -20,7 +22,11 @@ const UpdatePost = ({post, categories}) => {
     const [categoryAlert, setCategoryAlert] = useState('')
     const [descriptionAlert, setDescriptionAlert] = useState('')
 
-    if(post.author.id != session.data.user.id){
+    if(status === 'loading'){
+        return <LoadingScreen />
+    }
+
+    if(post.author.id != session.user.id){
         router.push('/')
         return
     }
@@ -92,7 +98,14 @@ const UpdatePost = ({post, categories}) => {
             <Container className="px-0 py-5">
                 <h1 className="text-center fw-bold">{post.title}</h1>
                 <div className="d-flex justify-content-center pt-4 pb-3">
-                    <Image src={post.image} alt={post.title} className="w-25" />
+                    <ImageWithFallback
+                        src={post.image}
+                        fallbackSrc={"/images/no-image.png"}
+                        fill
+                        style={{aspectRatio: '16 / 9', objectFit: 'cover'}}
+                        className="position-relative rounded shadow-sm w-25"
+                        alt={post.title}
+                    />
                 </div>
                 <Form className="w-50 mx-auto py-3" onSubmit={updateHandler}>
                     <Form.Group className="py-3 d-flex justify-content-between align-items-center">
@@ -101,12 +114,12 @@ const UpdatePost = ({post, categories}) => {
                     </Form.Group>
                     <Form.Group className="py-3 d-flex justify-content-between align-items-center">
                         <Form.Label htmlFor="title" className="w-25">Title</Form.Label>
-                        <Form.Control onChange={titleChangeHandler} required id="title" name="title" type="text" className="w-75" value={title} />
+                        <Form.Control onChange={titleChangeHandler} id="title" name="title" type="text" className="w-75" value={title} />
                     </Form.Group>
                     {titleAlert && <p id="title" className="d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>{titleAlert}</p>}
                     <Form.Group className="py-3 d-flex justify-content-between align-items-center">
                         <Form.Label htmlFor="category" className="w-25">Category</Form.Label>
-                        <Form.Select onChange={categoryChangeHandler} id="category" name="category" required className="w-75">
+                        <Form.Select onChange={categoryChangeHandler} id="category" name="category" className="w-75">
                             {categories.map(category => (
                                 <option key={category.id} value={category.id} selected={category.id === initialCategory}>
                                     {category.name}
@@ -117,7 +130,7 @@ const UpdatePost = ({post, categories}) => {
                     {categoryAlert && <p id="category" className="d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>{categoryAlert}</p>}
                     <Form.Group className="py-3">
                         <Form.Label htmlFor="description" className="w-25">Content</Form.Label>
-                        <Form.Control onChange={descriptionChangeHandler} id="description" name="description" required as="textarea" rows={10} className="my-3" value={description} />
+                        <Form.Control onChange={descriptionChangeHandler} id="description" name="description" as="textarea" rows={10} className="my-3" value={description} />
                     </Form.Group>
                     {descriptionAlert && <p id="description" className="d-flex flex-column text-center text-danger p-2 mb-4" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>{descriptionAlert}</p>}
                     <div className="d-flex justify-content-end">

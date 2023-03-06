@@ -6,10 +6,11 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { createPost } from "@/modules/posts/api";
 import { useSession } from "next-auth/react";
+import LoadingScreen from "@/components/LoadingScreen";
 
 const CreatePost = ({categories}) => {
     const router = useRouter()
-    const session = useSession()
+    const {status, data:session} = useSession()
     const [image, setImage] = useState('')
     const [title, setTitle] = useState('')
     const [category, setCategory] = useState(0)
@@ -33,6 +34,10 @@ const CreatePost = ({categories}) => {
 
     const descriptionChangeHandler = (e) => {
         setDescription(e.target.value)
+    }
+
+    if(status === 'loading'){
+        return <LoadingScreen />
     }
 
     const createHandler = (e) => {
