@@ -46,12 +46,10 @@ export default function PostCard({post, profile = false, showActions = false, au
                         <p>{post.comments.length} <ChatLeft /></p>
                     </div>
                     <p class="card-text mb-2 line-clamp-2 text-muted">{parser(post.description)}</p>
-                    <div className="d-flex justify-content-between w-100">
-                        <div style={{width: '80%'}}>
-                            <p className="badge py-2 px-3 rounded-pill bg-dark text-white mb-0">{post.category.name}</p>
-                        </div>
+                    <div className="d-flex justify-content-between align-items-center w-100">
+                        <p className="badge py-2 px-3 rounded-pill bg-dark text-white mb-0">{post.category.name}</p>
                         {showActions &&
-                            <div style={{width: '20%'}} className="d-flex justify-content-between align-items-center">
+                            <div className="d-flex justify-content-between align-items-center">
                                 <Link href={`/posts/update/${post.id}`}>
                                     <h4 className="text-primary"><PencilSquare /></h4> 
                                 </Link>

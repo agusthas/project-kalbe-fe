@@ -11,7 +11,6 @@ export default function CommentForm({user, token, postId}){
     const submitHandler = async(e) => {
         e.preventDefault()
         if(comment.length === 0) return
-        console.log(postId, comment, token)
         await createComment(
             postId,
             {
