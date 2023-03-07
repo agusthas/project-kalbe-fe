@@ -75,12 +75,12 @@ const UpdatePost = ({post, categories}) => {
             return
         }
         const updatedPost = {
-            image: image,
+            image: image.length > 0 ? image : null,
             title: title,
             categoryId: initialCategory,
             description: description
         }
-        updatePost(post.id, updatedPost, session.data.accessToken).then((response) => {
+        updatePost(post.id, updatedPost, session.accessToken).then((response) => {
             console.log(response)
             router.push('/')
         }).catch((err) => {
@@ -88,7 +88,7 @@ const UpdatePost = ({post, categories}) => {
         }).finally(() => {
             setImage(image)
             setTitle(title)
-            setCategory(category)
+            setCategory(initialCategory)
             setDescription(description)
         })
     }
