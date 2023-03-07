@@ -73,7 +73,8 @@ const CreatePost = ({categories}) => {
             description: description,
             image: image.length > 0 ? image : null
         }
-        createPost(newPost, session.data.accessToken).then((response) => {
+        
+        createPost(newPost, session.accessToken).then((response) => {
             console.log(response)
             router.push('/')
         }).catch((err) => {
