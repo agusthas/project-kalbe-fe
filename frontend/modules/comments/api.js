@@ -8,3 +8,15 @@ export const createComment = async (postId, data, token) => {
   });
   return response;
 };
+
+export const deleteComment = async (postId, commentId, token) => {
+  const response = await fetcher.delete(
+    `/posts/${postId}/comments/${commentId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};

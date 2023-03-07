@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -29,6 +30,20 @@ export class CommentsController {
       userId,
       commentData,
     );
+    return {
+      status: 'success',
+      data: comment,
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+  async remove(
+    @AuthUser('id') userId: number,
+    @Param('postId', ParseIntPipe) postId: number,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    const comment = await this.commentsService.remove(postId, userId, id);
     return {
       status: 'success',
       data: comment,
