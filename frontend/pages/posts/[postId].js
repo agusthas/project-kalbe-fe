@@ -86,7 +86,7 @@ export default function Post({post}){
                     <div className="col-md-8">
                         {status === 'authenticated' ? <CommentForm user={session.user} token={session.accessToken} postId={post.id}/> : ""}
                         {post.comments.map(comment => (
-                            <CommentCard comment={comment} key={comment.id}/>
+                            <CommentCard comment={comment} showDelete={session.user.id === comment.authorId} token={session.accessToken} key={comment.id}/>
                         ))}
                     </div>
                 </div>

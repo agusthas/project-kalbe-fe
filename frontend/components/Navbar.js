@@ -45,7 +45,7 @@ const Navbar = () => {
                                 width={40}
                                 height={40}
                                 style={{objectFit: 'cover'}} 
-                                class="rounded-circle" 
+                                class="rounded-circle border border-secondary" 
                                 alt="Profile Image"
                             />
                             <li class="nav-item dropdown">
