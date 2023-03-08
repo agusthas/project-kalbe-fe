@@ -72,7 +72,7 @@ const LoginForm = () => {
           </div>
           <div className="text-center">
             <p>
-              Don't have an account yet?{" "}
+              {"Don't have an account yet? "}
               <Link className="forgot-password text-right" href="/register" style={{fontWeight: 'bold'}}>
                 Register Here!
               </Link>

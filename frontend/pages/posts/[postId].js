@@ -48,7 +48,7 @@ export default function Post({post}){
                         <div className="d-flex md justify-content-between align-items-center mt-3">
                             <p className="badge py-2 px-3 rounded-pill bg-dark text-white mb-0 fs-6">{post.category.name}</p>
                             <Link className="text-dark text-decoration-none" href={`/profile/view/${post.author.id}`}>
-                                <div className="d-flex align-items-center gap-2">
+                                <Link href={`/profile/view/${post.author.id}`} className="d-flex align-items-center gap-2 text-decoration-none">
                                     <ImageWithFallback
                                         src={post.author.avatar}
                                         fallbackSrc={"/images/profile-picture-placeholder.jpg"}
@@ -57,8 +57,8 @@ export default function Post({post}){
                                         className="rounded-circle border border-secondary"
                                         style={{objectFit: 'cover'}}
                                     />
-                                    <p className="mb-0">{post.author.name}</p>
-                                </div>
+                                    <p className="mb-0 text-dark">{post.author.name}</p>
+                                </Link>
                             </Link>
                             <button className="btn btn-primary rounded-pill d-flex align-items-center gap-2" onClick={async() => await navigator.share({url: `http://localhost:3000${asPath}`})}><LinkIcon size={24}/><span>Share</span></button>
                         </div>
@@ -86,7 +86,9 @@ export default function Post({post}){
                     <div className="col-md-8">
                         {status === 'authenticated' ? <CommentForm user={session.user} token={session.accessToken} postId={post.id}/> : ""}
                         {post.comments.map(comment => (
+                            status === 'authenticated' ?
                             <CommentCard comment={comment} showDelete={session.user.id === comment.authorId} token={session.accessToken} key={comment.id}/>
+                            : <CommentCard comment={comment} key={comment.id}/>
                         ))}
                     </div>
                 </div>

@@ -10,7 +10,7 @@ const Profile = ({user}) => {
     const title = `${user.name}'s Profile`
     const {status, data:session} = useSession() 
     let notSelf = false
-    if(user.id != session.user.id){
+    if(status !== 'authenticated' || user.id != session.user.id){
         notSelf = true
     }
     if(status === 'loading'){
@@ -29,7 +29,6 @@ const Profile = ({user}) => {
     )
 }
 
-Profile.auth = true
 export default Profile; 
 
 export async function getServerSideProps({params}){
