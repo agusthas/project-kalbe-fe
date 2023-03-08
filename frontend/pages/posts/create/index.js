@@ -20,6 +20,8 @@ const CreatePost = ({categories}) => {
     const [categoryAlert, setCategoryAlert] = useState('')
     const [descriptionAlert, setDescriptionAlert] = useState('')
 
+    const [erorrAlert, setErrorAlert] = useState('');
+
     const imageChangeHandler = (e) => {
         setImage(e.target.value)
     }
@@ -41,6 +43,8 @@ const CreatePost = ({categories}) => {
     }
 
     const createHandler = (e) => {
+        setErrorAlert('');
+
         e.preventDefault()
         let error = 0
         if(title.length <= 0){
@@ -78,7 +82,8 @@ const CreatePost = ({categories}) => {
             console.log(response)
             router.push('/')
         }).catch((err) => {
-            console.log(err.response.data)
+            console.log(err)
+            setErrorAlert(err)
         }).finally(() => {
             setImage('')
             setTitle('')
@@ -92,6 +97,11 @@ const CreatePost = ({categories}) => {
             <Container className="px-0 py-5">
                 <h1 className="text-center fw-bold">Create Blog</h1>
                 <Form className="w-50 mx-auto py-3" onSubmit={createHandler}>
+                    {erorrAlert && (
+                        <Alert variant="danger">
+                            <span>{erorrAlert.response.status}: {erorrAlert.response.data.message}</span>
+                        </Alert>
+                    )}
                     <Form.Group className="py-3 d-flex justify-content-between align-items-center">
                         <Form.Label htmlFor="image" className="w-25">Image URL</Form.Label>
                         <Form.Control value={image} onChange={imageChangeHandler} id="image" name="image" type="text" className="w-75" placeholder="Enter image URL here..."/>
