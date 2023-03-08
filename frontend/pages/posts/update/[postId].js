@@ -135,7 +135,7 @@ const UpdatePost = ({post, categories}) => {
                     {descriptionAlert && <p id="description" className="d-flex flex-column text-center text-danger p-2 mb-4" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>{descriptionAlert}</p>}
                     <div className="d-flex justify-content-end">
                         <div className="d-flex justify-content-between w-25">
-                            <Link href={`/`}>
+                            <Link href={`/profile/view/${session.user.id}`}>
                                 <Button className="btn text-white btn-danger fw-bold">Cancel</Button>
                             </Link>
                             <Button className="btn btn-primary fw-bold" type="submit">Update</Button>

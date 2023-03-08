@@ -7,7 +7,7 @@ import { Trash3Fill } from "react-bootstrap-icons";
 import { deleteComment } from "@/modules/comments/api";
 import { useRouter } from "next/router";
 
-export default function CommentCard({comment, showDelete, token}){
+export default function CommentCard({comment, showDelete = false, token = null}){
     const [dateString, setDateString] = useState("")
     const router = useRouter()
     useEffect(() => {
