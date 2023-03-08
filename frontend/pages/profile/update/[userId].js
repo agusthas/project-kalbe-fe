@@ -114,7 +114,7 @@ const UpdateProfile = ({user}) => {
             return
         }
         const updatedUser = {
-            avatar: avatar.length > 0 ? avatar : null,
+            avatar: avatar ?? null,
             name: name,
             email: email,
             password: password,
@@ -123,7 +123,7 @@ const UpdateProfile = ({user}) => {
         }
         updateMe(updatedUser, session.accessToken).then((response) => {
             console.log(response)
-            router.push('/')
+            router.push(`/profile/view/${session.user.id}`)
         }).catch((err) => {
             console.log(err.response.data)
         }).finally(() => {
