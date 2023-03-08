@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Container } from "react-bootstrap";
 import { register } from "@/modules/auth/api";
 import Link from "next/link";
+import { Alert } from "react-bootstrap";
 
 const RegisterForm = () => {
   const router = useRouter()
@@ -16,6 +17,8 @@ const RegisterForm = () => {
   const [alertPassword, setAlertPassword] = useState('')
   const [alertConfirm, setAlertConfrim] = useState('')
   const [alertPhone, setAlertPhone] = useState('')
+
+  const [erorrAlert, setErrorAlert] = useState('');
   
   const nameChangeHandler = event => {
     setName(event.target.value)
@@ -38,6 +41,8 @@ const RegisterForm = () => {
   }
 
   const submitHandler = event => {
+    setErrorAlert('');
+
     event.preventDefault()
     if(password != confirm) {
       setAlertConfrim('Confirm Password must be same with Password')
@@ -78,6 +83,7 @@ const RegisterForm = () => {
       }) 
       .catch((error) => {
         console.log(error)
+        setErrorAlert(error)
       })
       .finally(() => {
         setName('')
@@ -93,6 +99,11 @@ const RegisterForm = () => {
       <h1 className="text-center my-5" style={{fontWeight: 'bold'}}>Create Your Account</h1>
       <Container className="rounded mb-5 py-5 w-50 d-flex justify-content-center shadow">
         <form onSubmit={submitHandler} className="w-100 px-5">
+          {erorrAlert && (
+            <Alert variant="danger">
+              <span>{erorrAlert.response.status}: {erorrAlert.response.data.message}</span>
+            </Alert>
+          )}
           <div className="mb-4">
             <label className="mb-1" style={{fontWeight: 'bold'}}>Name</label>
             <input
