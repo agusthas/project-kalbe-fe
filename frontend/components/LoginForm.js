@@ -64,6 +64,7 @@ const LoginForm = () => {
               onChange={passwordChangeHandler}
               required
             />
+            {alert && <p className="d-flex flex-column text-danger mt-1"> {alert} </p>}
           </div>
           <div className="d-grid mb-4">
             <button type="submit" className="btn btn-primary py-2" style={{fontWeight: 'bold'}}>
@@ -78,7 +79,6 @@ const LoginForm = () => {
               </Link>
             </p>
           </div>
-          {alert && <p className="d-flex flex-column text-center text-danger p-2" style={{borderRadius:'10px', backgroundColor: '#ffc7d0'}}> {alert} </p>}
         </form>
       </Container>
     </div>

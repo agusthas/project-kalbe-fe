@@ -104,6 +104,7 @@ const RegisterForm = () => {
               onChange={nameChangeHandler}
               required
             />
+            {alertName && <p className="d-flex flex-column text-danger mt-1"> {alertName} </p>}
           </div>
           <div className="mb-4">
             <label className="mb-1" style={{fontWeight: 'bold'}}>Email Address</label>
@@ -129,6 +130,7 @@ const RegisterForm = () => {
                 onChange={passwordChangeHandler}
                 required
               />
+              {alertPassword &&  <p className="d-flex flex-column text-danger mt-1"> {alertPassword} </p>}
             </div>
             <div className="mb-4" style={{ width: "310px" }}>
               <label className="mb-1" style={{fontWeight: 'bold'}}>Confirm Password</label>
@@ -141,6 +143,7 @@ const RegisterForm = () => {
                 onChange={confirmChangeHandler}
                 required
               />
+              {alertConfirm && <p className="d-flex flex-column text-danger mt-1"> {alertConfirm} </p>}
             </div>
           </div>
           <div className="mb-4">
@@ -154,6 +157,7 @@ const RegisterForm = () => {
               onChange={phoneChangeHandler}
               required
             />
+            {alertPhone && <p className="d-flex flex-column text-danger mt-1"> {alertPhone} </p>}
           </div>
           <div className="d-grid mb-4">
             <button type="submit" className="btn btn-primary py-2" style={{fontWeight: 'bold'}}>
@@ -168,15 +172,6 @@ const RegisterForm = () => {
               </Link>
             </p>
           </div>
-          {alertName && <p className="d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>
-              {alertName}</p>}
-          {alertPassword &&  <p className="d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>
-              {alertPassword}</p>}
-          {alertConfirm && <p className="d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>
-              {alertConfirm}</p>}
-          {alertPhone && <p className="d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>
-              {alertPhone}</p>
-          }
         </form>
       </Container>
     </div>
