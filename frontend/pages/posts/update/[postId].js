@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Button, Container, Form, Image } from "react-bootstrap";
+import { Alert, Button, Container, Form, Image } from "react-bootstrap";
 
 const UpdatePost = ({post, categories}) => {
     const router = useRouter()
@@ -50,6 +50,8 @@ const UpdatePost = ({post, categories}) => {
     }
 
     const updateHandler = (e) => {
+        setErrorAlert('');
+
         e.preventDefault()
         let error = 0
         if(title.length <= 0){
@@ -89,7 +91,8 @@ const UpdatePost = ({post, categories}) => {
             console.log(response)
             router.push('/')
         }).catch((err) => {
-            console.log(err.response.data)
+            console.log(err)
+            setErrorAlert(err)
         }).finally(() => {
             setImage(image)
             setTitle(title)
@@ -118,6 +121,11 @@ const UpdatePost = ({post, categories}) => {
                     {descriptionAlert && <p className="text-center text-danger p-1 m-1">{descriptionAlert}</p>}
                 </div>}
                 <Form className="w-50 mx-auto py-3" onSubmit={updateHandler}>
+                    {erorrAlert && (
+                        <Alert variant="danger">
+                            <span>{erorrAlert.response.status}: {erorrAlert.response.data.message}</span>
+                        </Alert>
+                    )}
                     <Form.Group className="py-3 d-flex justify-content-between align-items-center">
                         <Form.Label htmlFor="image" className="w-25">Image URL</Form.Label>
                         <Form.Control onChange={imageChangeHandler} id="image" name="image" type="text" className="w-75" value={image} />

@@ -60,7 +60,7 @@ export default function Post({post}){
                                     <p className="mb-0 text-dark">{post.author.name}</p>
                                 </Link>
                             </Link>
-                            <button className="btn btn-primary rounded-pill d-flex align-items-center gap-2" onClick={async() => await navigator.share({url: `http://localhost:3000${asPath}`})}><LinkIcon size={24}/><span>Share</span></button>
+                            <button className="btn btn-primary rounded-pill d-flex align-items-center gap-2" onClick={async() => await navigator.share({url: `${asPath}`})}><LinkIcon size={24}/><span>Share</span></button>
                         </div>
                     </div>
                 </div>

@@ -43,10 +43,9 @@ const UpdateProfile = ({user}) => {
         return <LoadingScreen />
     }
 
-    if(user.id != session.user.id) {
-        router.push('/')
-        return
-    }
+const UpdateProfile = ({ user }) => {
+  const router = useRouter();
+  const { status, data: session } = useSession();
 
     const avatarChangeHandler = (e) => {
         setAvatar(e.target.value)
@@ -72,14 +71,35 @@ const UpdateProfile = ({user}) => {
         })
     }
 
-    const passwordChangeHandler = (e) => {
-        setPassword(e.target.value)
+  const phoneChangeHandler = (e) => {
+    setPhone(e.target.value);
+  };
+
+  const bioChangeHandler = (e) => {
+    setBio(e.target.value);
+  };
+
+  const updateHandler = (e) => {
+    setErrorAlert("");
+
+    e.preventDefault();
+    let error = 0;
+    if (name.length <= 0) {
+      setNameAlert("Name must be filled!");
+      error = 1;
+    } else if (name.length > 50) {
+      setNameAlert("Name must not have more than 50 characters!");
+      error = 1;
+    } else {
+      setNameAlert("");
+    }
+    if (email.length <= 0) {
+      setEmailAlert("Email must be filled!");
+      error = 1;
+    } else {
+      setEmailAlert("");
     }
     
-    const confirmationPasswordChangeHandler = (e) => {
-        setConfirmationPassword(e.target.value)
-    }
-
     const phoneChangeHandler = (e) => {
         setPhone(e.target.value)
         setEditedUser({
@@ -234,18 +254,20 @@ const UpdateProfile = ({user}) => {
         </Layout>
     )
 }
+  
 
-UpdateProfile.auth = true
+UpdateProfile.auth = true;
 export default UpdateProfile;
 
-export async function getServerSideProps({params}){
-    const user = await getUser(params.userId).then(res => res.data)
-    if(!user) return{
-        notFound: true
-    }
+export async function getServerSideProps({ params }) {
+  const user = await getUser(params.userId).then((res) => res.data);
+  if (!user)
     return {
-        props: {
-            user: user.data ?? []
-        }
-    }
+      notFound: true,
+    };
+  return {
+    props: {
+      user: user.data ?? [],
+    },
+  };
 }
