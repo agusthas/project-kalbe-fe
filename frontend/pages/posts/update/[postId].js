@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Button, Container, Form, Image } from "react-bootstrap";
+import { Alert, Button, Container, Form, Image } from "react-bootstrap";
 
 const UpdatePost = ({post, categories}) => {
     const router = useRouter()
@@ -21,6 +21,8 @@ const UpdatePost = ({post, categories}) => {
     const [titleAlert, setTitleAlert] = useState('')
     const [categoryAlert, setCategoryAlert] = useState('')
     const [descriptionAlert, setDescriptionAlert] = useState('')
+
+    const [updateAlert, setUpdateAlert] = useState(false)
 
     if(status === 'loading'){
         return <LoadingScreen />
@@ -48,6 +50,8 @@ const UpdatePost = ({post, categories}) => {
     }
 
     const updateHandler = (e) => {
+        setErrorAlert('');
+
         e.preventDefault()
         let error = 0
         if(title.length <= 0){
@@ -72,7 +76,10 @@ const UpdatePost = ({post, categories}) => {
             setDescriptionAlert('')
         }
         if(error > 0){
+            setUpdateAlert(true)
             return
+        }else{
+            setUpdateAlert(false)
         }
         const updatedPost = {
             image: image.length > 0 ? image : null,
@@ -84,7 +91,8 @@ const UpdatePost = ({post, categories}) => {
             console.log(response)
             router.push('/')
         }).catch((err) => {
-            console.log(err.response.data)
+            console.log(err)
+            setErrorAlert(err)
         }).finally(() => {
             setImage(image)
             setTitle(title)
@@ -107,6 +115,11 @@ const UpdatePost = ({post, categories}) => {
                         alt={post.title}
                     />
                 </div>
+                {updateAlert && <div className="alert alert-danger w-50 mx-auto py-3">
+                    {titleAlert && <p className="text-center text-danger p-1 m-1">{titleAlert}</p>}
+                    {categoryAlert && <p className="text-center text-danger p-1 m-1">{categoryAlert}</p>}
+                    {descriptionAlert && <p className="text-center text-danger p-1 m-1">{descriptionAlert}</p>}
+                </div>}
                 <Form className="w-50 mx-auto py-3" onSubmit={updateHandler}>
                     <Form.Group className="py-3 d-flex justify-content-between align-items-center">
                         <Form.Label htmlFor="image" className="w-25">Image URL</Form.Label>
@@ -116,7 +129,6 @@ const UpdatePost = ({post, categories}) => {
                         <Form.Label htmlFor="title" className="w-25">Title</Form.Label>
                         <Form.Control onChange={titleChangeHandler} id="title" name="title" type="text" className="w-75" value={title} />
                     </Form.Group>
-                    {titleAlert && <p id="title" className="d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>{titleAlert}</p>}
                     <Form.Group className="py-3 d-flex justify-content-between align-items-center">
                         <Form.Label htmlFor="category" className="w-25">Category</Form.Label>
                         <Form.Select onChange={categoryChangeHandler} id="category" name="category" className="w-75">
@@ -127,12 +139,10 @@ const UpdatePost = ({post, categories}) => {
                             ))}
                         </Form.Select>
                     </Form.Group>
-                    {categoryAlert && <p id="category" className="d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>{categoryAlert}</p>}
                     <Form.Group className="py-3">
                         <Form.Label htmlFor="description" className="w-25">Content</Form.Label>
-                        <Form.Control onChange={descriptionChangeHandler} id="description" name="description" as="textarea" rows={10} className="my-3" value={description} />
+                        <Form.Control onChange={descriptionChangeHandler} id="description" name="description" as="textarea" rows={10} className="my-3" value={description} style={{resize: 'none'}}/>
                     </Form.Group>
-                    {descriptionAlert && <p id="description" className="d-flex flex-column text-center text-danger p-2 mb-4" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>{descriptionAlert}</p>}
                     <div className="d-flex justify-content-end">
                         <div className="d-flex justify-content-between w-25">
                             <Link href={`/profile/view/${session.user.id}`}>

@@ -22,6 +22,7 @@ const CreatePost = ({categories}) => {
     const [descriptionAlert, setDescriptionAlert] = useState('')
 
     const [loading, setLoading] = useState(true)
+    const [createAlert, setCreateAlert] = useState(false)
 
     const imageChangeHandler = (e) => {
         setImage(e.target.value)
@@ -68,7 +69,10 @@ const CreatePost = ({categories}) => {
             setDescriptionAlert('')
         }
         if(error > 0){
+            setCreateAlert(true)
             return
+        }else{
+            setCreateAlert(false)
         }
         const newPost = {
             title: title,
@@ -81,7 +85,8 @@ const CreatePost = ({categories}) => {
             console.log(response)
             router.push('/')
         }).catch((err) => {
-            console.log(err.response.data)
+            console.log(err)
+            setErrorAlert(err)
         }).finally(() => {
             setImage('')
             setTitle('')
@@ -94,6 +99,11 @@ const CreatePost = ({categories}) => {
         <Layout title="Create Blog">
             <Container className="px-0 py-5">
                 <h1 className="text-center fw-bold">Create Blog</h1>
+                {createAlert && <div className="alert alert-danger w-50 mx-auto py-3">
+                    {titleAlert && <p className="text-center text-danger p-1 m-1">{titleAlert}</p>}
+                    {categoryAlert && <p className="text-center text-danger p-1 m-1">{categoryAlert}</p>}
+                    {descriptionAlert && <p className="text-center text-danger p-1 m-1">{descriptionAlert}</p>}
+                </div>}
                 <Form className="w-50 mx-auto py-3" onSubmit={createHandler}>
                     <Form.Group className="py-3 d-flex justify-content-between align-items-center">
                         <Form.Label htmlFor="image" className="w-25">Image URL</Form.Label>
@@ -103,7 +113,6 @@ const CreatePost = ({categories}) => {
                         <Form.Label htmlFor="title" className="w-25">Title <span className="text-danger">*</span> </Form.Label>
                         <Form.Control value={title} onChange={titleChangeHandler} id="title" name="title" type="text" placeholder="Enter blog title here..." className="w-75" />
                     </Form.Group>
-                    {titleAlert && <p id="title" className="d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>{titleAlert}</p>}
                     <Form.Group className="py-3 d-flex justify-content-between align-items-center">
                         <Form.Label htmlFor="category" className="w-25">Category <span className="text-danger">*</span> </Form.Label>
                         <Form.Select onChange={categoryChangeHandler} id="category" name="category" className="w-75">
@@ -115,7 +124,6 @@ const CreatePost = ({categories}) => {
                             ))}
                         </Form.Select>
                     </Form.Group>
-                    {categoryAlert && <p id="category" className="d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>{categoryAlert}</p>}
                     <Form.Group className="py-3">
                         <Form.Label htmlFor="description" className="w-25">Content <span className="text-danger">*</span> </Form.Label>
                         {loading && "Loading.."}
@@ -132,7 +140,6 @@ const CreatePost = ({categories}) => {
                             }}
                         />
                     </Form.Group>
-                    {descriptionAlert && <p id="description" className="d-flex flex-column text-center text-danger p-2 mb-4" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>{descriptionAlert}</p>}
                     <div className="d-flex justify-content-around">
                         <p className="w-75 fw-bold align-middle"><span className="text-danger">*</span> must be filled</p>
                         <div className="d-flex justify-content-between w-25">
