@@ -4,12 +4,12 @@ import PostCard from "./PostCard"
 
 export default function ProfilePostSection({user, showActions}){
     if(user.posts.length <= 0) return(
-        <Container className="py-5">
+        <Container className="py-5 min-vh-100">
             <div className="text-center">
                 <h1 className="fw-bold">You have not posted anything here yet.</h1> 
                 <h5>Maybe try to post one first?</h5>
                 <Link href={`/posts/create`}>
-                    <Button variant="primary" className="fw-bold mt-2">Create Post</Button>
+                    <Button variant="primary" className="fw-bold mt-2">Create Blog</Button>
                 </Link>
             </div> 
         </Container>

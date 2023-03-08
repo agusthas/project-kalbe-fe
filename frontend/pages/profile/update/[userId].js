@@ -27,6 +27,18 @@ const UpdateProfile = ({user}) => {
     const [phoneAlert, setPhoneAlert] = useState('')
     const [bioAlert, setBioAlert] = useState('')
 
+    const [editedUser, setEditedUser] = useState({
+        avatar: user.avatar,
+        name: user.name,
+        email: user.email,
+        posts: user.posts,
+        comments: user.comments,
+        phone: user.phone,
+        bio: user.bio
+    })
+
+    const [updateAlert, setUpdateAlert] = useState(false)
+
     if(status === 'loading'){
         return <LoadingScreen />
     }
@@ -38,14 +50,26 @@ const UpdateProfile = ({user}) => {
 
     const avatarChangeHandler = (e) => {
         setAvatar(e.target.value)
+        setEditedUser({
+            ...editedUser,
+            avatar: e.target.value
+        })
     }
 
     const nameChangeHandler = (e) => {
         setName(e.target.value)
+        setEditedUser({
+            ...editedUser,
+            name: e.target.value
+        })
     }
 
     const emailChangeHandler = (e) => {
         setEmail(e.target.value)
+        setEditedUser({
+            ...editedUser,
+            email: e.target.value
+        })
     }
 
     const passwordChangeHandler = (e) => {
@@ -58,10 +82,18 @@ const UpdateProfile = ({user}) => {
 
     const phoneChangeHandler = (e) => {
         setPhone(e.target.value)
+        setEditedUser({
+            ...editedUser,
+            phone: e.target.value
+        })
     }
 
     const bioChangeHandler = (e) => {
         setBio(e.target.value)
+        setEditedUser({
+            ...editedUser,
+            bio: e.target.value
+        })
     }
 
     const updateHandler = (e) => {
@@ -95,10 +127,10 @@ const UpdateProfile = ({user}) => {
             setConfirmationPasswordAlert('')
         }
         if(phone.length < 10){
-            setPhoneAlert('Phone must have at least 10 digits!')
+            setPhoneAlert('Phone number must have at least 10 digits!')
             error = 1
         }else if(phone.length > 15){
-            setPhoneAlert('Phone must not have more than 15 digits!')
+            setPhoneAlert('Phone number must not have more than 15 digits!')
             error = 1
         }else{
             setPhoneAlert('')
@@ -110,8 +142,10 @@ const UpdateProfile = ({user}) => {
             setBioAlert('')
         }
         if(error == 1){
-            console.log(error);
+            setUpdateAlert(true)
             return
+        }else{
+            setUpdateAlert(false)
         }
         const updatedUser = {
             avatar: avatar.length > 0 ? avatar : null,
@@ -134,6 +168,7 @@ const UpdateProfile = ({user}) => {
             setConfirmationPassword('')
             setPhone('')
             setBio('')
+            setUpdateAlert(false)
         })
     }
 
@@ -144,11 +179,19 @@ const UpdateProfile = ({user}) => {
                 <Form.Group className="py-3 mx-auto w-75">
                     <Form.Label>Banner Preview</Form.Label>
                     <div className="border border-2 rounded-3 p-3">
-                        <ProfileCard user={user}/>
+                        <ProfileCard user={editedUser}/>
                     </div>
                 </Form.Group>
+                {updateAlert && <div className="alert alert-danger w-50 mx-auto py-3">
+                    {nameAlert && <p className="text-center text-danger p-1 m-1">{nameAlert}</p>}
+                    {emailAlert && <p className="text-center text-danger p-1 m-1">{emailAlert}</p>}
+                    {passwordAlert && <p className="text-center text-danger p-1 m-1">{passwordAlert}</p>}
+                    {confirmationPasswordAlert && <p className="text-center text-danger p-1 m-1">{confirmationPasswordAlert}</p>}
+                    {phoneAlert && <p className="text-center text-danger p-1 m-1">{phoneAlert}</p>}
+                    {bioAlert && <p className="text-center text-danger p-1 mb-1">{bioAlert}</p>}
+                </div>}
                 <Form className="w-50 mx-auto py-3" onSubmit={updateHandler}>
-                <Form.Group className="py-3">
+                    <Form.Group className="py-3">
                         <Form.Label htmlFor="avatar" className="w-25">Profile Picture URL</Form.Label>
                         <Form.Control onChange={avatarChangeHandler} id="avatar" name="avatar" type="text" value={avatar}/>
                     </Form.Group>
@@ -156,34 +199,28 @@ const UpdateProfile = ({user}) => {
                         <Form.Label htmlFor="name" className="w-25">Name</Form.Label>
                         <Form.Control onChange={nameChangeHandler} id="name" name="name" type="text" value={name}/>
                     </Form.Group>
-                    {nameAlert && <p id="title" className="d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>{nameAlert}</p>}
                     <Form.Group className="py-3">
                         <Form.Label htmlFor="email" className="w-25">Email</Form.Label>
                         <Form.Control onChange={emailChangeHandler} id="email" name="email" type="email" value={email}/>
                     </Form.Group>
-                    {emailAlert && <p id="title" className="d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>{emailAlert}</p>}
                     <div className="d-flex justify-content-between">
                         <Form.Group className="py-3 w-50">
                             <Form.Label htmlFor="password" className="w-50">Password</Form.Label>
                             <Form.Control onChange={passwordChangeHandler} id="password" name="password" type="password" value={password}/>
                         </Form.Group>
-                        {passwordAlert && <p id="title" className="w-50 d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>{passwordAlert}</p>}
                         <Form.Group className="py-3 w-50 mx-2">
                             <Form.Label htmlFor="password_confirmation" className="w-50">Confirm Password</Form.Label>
                             <Form.Control onChange={confirmationPasswordChangeHandler} id="password_confirmation" name="password_confirmation" type="password" value={confirmationPassword}/>
                         </Form.Group>
-                        {confirmationPasswordAlert && <p id="title" className="w-50 d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>{confirmationPasswordAlert}</p>}
                     </div>
                     <Form.Group className="py-3">
                         <Form.Label htmlFor="phone" className="w-25">Phone Number</Form.Label>
                         <Form.Control onChange={phoneChangeHandler} id="phone" name="phone" type="number" value={phone}/>
                     </Form.Group>
-                    {phoneAlert && <p id="title" className="d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>{phoneAlert}</p>}
                     <Form.Group className="py-3">
                         <Form.Label htmlFor="bio" className="w-25">Bio</Form.Label>
-                        <Form.Control onChange={bioChangeHandler} id="bio" name="bio" as="textarea" rows={5} className="mt-1 mb-3" value={bio} />
+                        <Form.Control onChange={bioChangeHandler} id="bio" name="bio" as="textarea" rows={5} className="mt-1 mb-3" value={bio} style={{resize: 'none'}}/>
                     </Form.Group>
-                    {bioAlert && <p id="title" className="d-flex flex-column text-center text-danger p-2 mb-4" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>{bioAlert}</p>}
                     <div className="d-flex justify-content-end">
                         <div className="d-flex justify-content-between w-25">
                             <Link href={`/profile/view/${session.user.id}`}>
