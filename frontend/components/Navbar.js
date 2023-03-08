@@ -5,12 +5,19 @@ import { Button, Container, Image } from "react-bootstrap";
 import { signOut } from "next-auth/react";
 import LoadingScreen from "./LoadingScreen";
 import ImageWithFallback from "./ImageWithFallback";
+import { useEffect, useState } from "react";
+// import { getMe } from "@/modules/users/api";
 
 const Navbar = () => {
     const router = useRouter()
     const activeLink = (url, pathname) => pathname === url ? "text-primary" : "text-dark"
-
     const { status, data: session } = useSession()
+    // const [user, setUser] = useState(null)
+    // useEffect(() => {
+    //     const user = getMe(session.accessToken).then(res => setUser(res.data.data))
+    //     console.log(user)
+    // }, [status])
+
     if(status === 'loading'){
         return <LoadingScreen/>
     }

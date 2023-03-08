@@ -2,7 +2,7 @@ import Layout from "@/components/Layout";
 import LoadingScreen from "@/components/LoadingScreen";
 import ProfileCard from "@/components/ProfileCard";
 import { getUser, updateMe } from "@/modules/users/api";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -121,9 +121,13 @@ const UpdateProfile = ({user}) => {
             phone: phone,
             bio: bio
         }
-        updateMe(updatedUser, session.accessToken).then((response) => {
+        updateMe(updatedUser, session.accessToken).then(async(response) => {
             console.log(response)
-            router.push(`/profile/view/${session.user.id}`)
+            await signIn("credentials",{
+                email: email,
+                password: password,
+                callbackUrl: `/profile/view/${session.user.id}`
+            })
         }).catch((err) => {
             console.log(err.response.data)
         }).finally(() => {

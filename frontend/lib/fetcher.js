@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const fetcher = axios.create({
-  baseURL: "http://localhost:3001",
+  baseURL: `${process.env.NEXT_PUBLIC_SERVER_URL}`,
 });
 
 export default fetcher;

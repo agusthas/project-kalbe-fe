@@ -35,10 +35,6 @@ const CreatePost = ({categories}) => {
         setCategory(e.target.value)
     }
 
-    const descriptionChangeHandler = (e) => {
-        setDescription(e.target.value)
-    }
-
     if(status === 'loading'){
         return <LoadingScreen />
     }

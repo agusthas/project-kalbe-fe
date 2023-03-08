@@ -68,7 +68,7 @@ export default function PostCard({post, profile = false, showActions = false, au
                         <p className="card-text mb-2">by <span className="fw-semibold"><Link className="text-decoration-none text-dark" href={`/profile/view/${post.author.id}`}>{post.author.name}</Link></span></p>
                         <p className="card-text mb-2">{dateString}</p>
                     </div>
-                    <p className="card-text mb-2 line-clamp-2 text-muted">{parser(post.description)}</p>
+                    <div className="card-text mb-2 line-clamp-2 text-muted">{parser(post.description)}</div>
                     <p className="badge py-2 px-3 rounded-pill bg-dark text-white mb-0">{post.category.name}</p>
                 </div>
             }

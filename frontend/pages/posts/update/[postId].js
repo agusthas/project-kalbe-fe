@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Button, Container, Form, Image } from "react-bootstrap";
+import {Editor} from "@tinymce/tinymce-react"
 
 const UpdatePost = ({post, categories}) => {
     const router = useRouter()
@@ -21,6 +22,8 @@ const UpdatePost = ({post, categories}) => {
     const [titleAlert, setTitleAlert] = useState('')
     const [categoryAlert, setCategoryAlert] = useState('')
     const [descriptionAlert, setDescriptionAlert] = useState('')
+
+    const [loading, setLoading] = useState(true)
 
     if(status === 'loading'){
         return <LoadingScreen />
@@ -82,7 +85,7 @@ const UpdatePost = ({post, categories}) => {
         }
         updatePost(post.id, updatedPost, session.accessToken).then((response) => {
             console.log(response)
-            router.push('/')
+            router.push(`/profile/view/${session.user.id}`)
         }).catch((err) => {
             console.log(err.response.data)
         }).finally(() => {
@@ -130,7 +133,20 @@ const UpdatePost = ({post, categories}) => {
                     {categoryAlert && <p id="category" className="d-flex flex-column text-center text-danger p-2 m-1" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>{categoryAlert}</p>}
                     <Form.Group className="py-3">
                         <Form.Label htmlFor="description" className="w-25">Content</Form.Label>
-                        <Form.Control onChange={descriptionChangeHandler} id="description" name="description" as="textarea" rows={10} className="my-3" value={description} />
+                        {loading && "Loading.."}
+                        <Editor
+                            apiKey="ic2z1zdhvj0vzyazri0jh2ph5w0kiij71y6q1by6h9x18nse"
+                            initialValue={post.description}
+                            onInit={() => setLoading(false)}
+                            onEditorChange={(html) => setDescription(html ?? "")}
+                            init={{
+                                height: 300,
+                                menubar: false,
+                                statusbar: false,
+                                plugins: "anchor autolink link lists table",
+                                toolbar: "undo redo | bold italic underline strikethrough | link | numlist bullist indent outdent | removeformat",
+                            }}
+                        />
                     </Form.Group>
                     {descriptionAlert && <p id="description" className="d-flex flex-column text-center text-danger p-2 mb-4" style={{ borderRadius: '10px', backgroundColor: '#ffc7d0' }}>{descriptionAlert}</p>}
                     <div className="d-flex justify-content-end">
