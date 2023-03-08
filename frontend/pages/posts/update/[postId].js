@@ -121,11 +121,6 @@ const UpdatePost = ({post, categories}) => {
                     {descriptionAlert && <p className="text-center text-danger p-1 m-1">{descriptionAlert}</p>}
                 </div>}
                 <Form className="w-50 mx-auto py-3" onSubmit={updateHandler}>
-                    {erorrAlert && (
-                        <Alert variant="danger">
-                            <span>{erorrAlert.response.status}: {erorrAlert.response.data.message}</span>
-                        </Alert>
-                    )}
                     <Form.Group className="py-3 d-flex justify-content-between align-items-center">
                         <Form.Label htmlFor="image" className="w-25">Image URL</Form.Label>
                         <Form.Control onChange={imageChangeHandler} id="image" name="image" type="text" className="w-75" value={image} />
