@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Alert, Button, Container, Form, Image } from "react-bootstrap";
+import {Editor} from "@tinymce/tinymce-react"
 
 const UpdatePost = ({post, categories}) => {
     const router = useRouter()
@@ -22,6 +23,7 @@ const UpdatePost = ({post, categories}) => {
     const [categoryAlert, setCategoryAlert] = useState('')
     const [descriptionAlert, setDescriptionAlert] = useState('')
 
+    const [loading, setLoading] = useState(true)
     const [updateAlert, setUpdateAlert] = useState(false)
 
     if(status === 'loading'){
@@ -89,7 +91,7 @@ const UpdatePost = ({post, categories}) => {
         }
         updatePost(post.id, updatedPost, session.accessToken).then((response) => {
             console.log(response)
-            router.push('/')
+            router.push(`/profile/view/${session.user.id}`)
         }).catch((err) => {
             console.log(err)
             setErrorAlert(err)
@@ -141,7 +143,20 @@ const UpdatePost = ({post, categories}) => {
                     </Form.Group>
                     <Form.Group className="py-3">
                         <Form.Label htmlFor="description" className="w-25">Content</Form.Label>
-                        <Form.Control onChange={descriptionChangeHandler} id="description" name="description" as="textarea" rows={10} className="my-3" value={description} style={{resize: 'none'}}/>
+                        {loading && "Loading.."}
+                        <Editor
+                            apiKey="ic2z1zdhvj0vzyazri0jh2ph5w0kiij71y6q1by6h9x18nse"
+                            initialValue={post.description}
+                            onInit={() => setLoading(false)}
+                            onEditorChange={(html) => setDescription(html ?? "")}
+                            init={{
+                                height: 300,
+                                menubar: false,
+                                statusbar: false,
+                                plugins: "anchor autolink link lists table",
+                                toolbar: "undo redo | bold italic underline strikethrough | link | numlist bullist indent outdent | removeformat",
+                            }}
+                        />
                     </Form.Group>
                     <div className="d-flex justify-content-end">
                         <div className="d-flex justify-content-between w-25">
