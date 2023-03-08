@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { createPost } from "@/modules/posts/api";
 import { useSession } from "next-auth/react";
 import LoadingScreen from "@/components/LoadingScreen";
+import {Editor} from "@tinymce/tinymce-react"
 
 const CreatePost = ({categories}) => {
     const router = useRouter()
@@ -20,6 +21,7 @@ const CreatePost = ({categories}) => {
     const [categoryAlert, setCategoryAlert] = useState('')
     const [descriptionAlert, setDescriptionAlert] = useState('')
 
+    const [loading, setLoading] = useState(true)
     const [createAlert, setCreateAlert] = useState(false)
 
     const imageChangeHandler = (e) => {
@@ -124,7 +126,19 @@ const CreatePost = ({categories}) => {
                     </Form.Group>
                     <Form.Group className="py-3">
                         <Form.Label htmlFor="description" className="w-25">Content <span className="text-danger">*</span> </Form.Label>
-                        <Form.Control value={description} onChange={descriptionChangeHandler} id="description" name="description" placeholder="Enter blog content here..." as="textarea" rows={10} className="my-3" style={{resize: 'none'}} />
+                        {loading && "Loading.."}
+                        <Editor
+                            apiKey="ic2z1zdhvj0vzyazri0jh2ph5w0kiij71y6q1by6h9x18nse"
+                            onInit={() => setLoading(false)}
+                            onEditorChange={(html) => setDescription(html ?? "")}
+                            init={{
+                                height: 300,
+                                menubar: false,
+                                statusbar: false,
+                                plugins: "anchor autolink link lists table",
+                                toolbar: "undo redo | bold italic underline strikethrough | link | numlist bullist indent outdent | removeformat",
+                            }}
+                        />
                     </Form.Group>
                     <div className="d-flex justify-content-around">
                         <p className="w-75 fw-bold align-middle"><span className="text-danger">*</span> must be filled</p>
